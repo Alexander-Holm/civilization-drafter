@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Civilization_draft.Views.Results"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Civilization_draft.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Controls/CivButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/Background.png" Stretch="UniformToFill"/>
+    </UserControl.Background>
+
+    <DockPanel>
+        <!--Header-->
+        <Border Style="{StaticResource HeaderStyle}" DockPanel.Dock="Top">
+            <Image Name="HeaderText" Style="{StaticResource HeaderText}"/>
+        </Border>
+        
+        <DockPanel>
+            <Border DockPanel.Dock="Top" 
+                    Background="DarkGoldenrod" 
+                    BorderBrush="DarkGoldenrod" BorderThickness="2,0,2,2"
+                    CornerRadius="0,0,5,5"
+                    HorizontalAlignment="Center">
+                <Button Name="BackButton" Style="{StaticResource Button}"
+                        Command="{Binding BackCommand}"
+                        HorizontalAlignment="Center"
+                        Content="Back"
+                        FontSize="18" FontWeight="DemiBold"
+                        Width="100" Height="40">
+                </Button>
+            </Border>
+
+
+
+
+            <Border Margin="50,15" Padding="15,0"
+                    BorderBrush="Purple" BorderThickness="3"
+                    CornerRadius="25">
+
+                <Border.Background>
+                    <SolidColorBrush Color="LawnGreen" Opacity="0.2"/>
+                </Border.Background>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar">
+                            <Setter Property="Margin" Value="0,15"/>
+                        </Style>
+                    </ScrollViewer.Resources>
+                    <!--List of players-->
+                    <ItemsControl ItemsSource="{Binding Players}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!--One row-->
+                                <Border BorderBrush="Red" BorderThickness="1">
+                                    <Grid Margin="40,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <!--Column 2 cannot have Width="auto", it breaks the WrapPanel !!!-->
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="red"
+                                        BorderThickness="0">
+                                            <TextBlock Grid.Column="0" 
+                                               Text="{Binding PlayerNumber, StringFormat='Player {0}:'}"
+                                               FontSize="24"/>
+                                        </Border>
+                                        <!--List of one players civilizations-->
+                                        <ItemsControl Grid.Column="1" Width="{Binding }"
+                                              ItemsSource="{Binding Civs}"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                              Background="Transparent"
+                                              HorizontalAlignment="left">
+
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal">
+                                                        <WrapPanel.Style>
+                                                            <Style>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding NumberOfPlayers.Selected}" Value="">
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </WrapPanel.Style>
+                                                    </WrapPanel>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Style="{StaticResource CivButton}" IsEnabled="False"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>            
+        </DockPanel>        
+    </DockPanel>    
+</UserControl>

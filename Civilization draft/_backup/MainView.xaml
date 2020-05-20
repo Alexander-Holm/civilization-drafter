@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="Civilization_draft.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Civilization_draft.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Controls/CivButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="Foreground" Value="#ef8354"/>
+            </Style>
+            <Style x:Key="Settings" TargetType="{x:Type FrameworkElement}">
+                <Setter Property="Margin" Value="20,0"/>
+            </Style>
+        </ResourceDictionary>        
+    </UserControl.Resources>
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Civilization draft;component/Resources/background.jpg" Stretch="UniformToFill"/>
+    </UserControl.Background>
+
+
+
+    <DockPanel>
+        <!--Header-->
+        <StackPanel x:Name="Header"
+                    DockPanel.Dock="Top">
+            <StackPanel.Background>
+                <SolidColorBrush Color="DarkSlateGray" Opacity="0.6"/>
+            </StackPanel.Background>
+            <TextBlock Text="Civilization 6 drafter" 
+                       Foreground="#ef8354"
+                       FontWeight="Bold"
+                       FontSize="36"
+                       HorizontalAlignment="Center"
+                       Margin="0,15,0,0"/>
+            <TextBlock Text="Beskrivande text"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+        </StackPanel>
+        
+        <!--Settings-->        
+        <Border DockPanel.Dock="Bottom"
+                Name="SettingsArea"
+                Padding="0,10,0,20">
+            <Border.Background>
+                <SolidColorBrush Color="DarkSlateGray" Opacity="0.6"/>
+            </Border.Background>
+            <StackPanel Orientation="Vertical">
+                <!--First row-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Style="{StaticResource Settings}">
+                        <Label Content="Number of players"/>
+                        <ComboBox x:Name="NumberOfPlayers" HorizontalAlignment="Center" Width="60" 
+                                  HorizontalContentAlignment="Center"
+                                  DataContext="{Binding NumberOfPlayers}"
+                                  ItemsSource="{Binding Amount}"
+                                  SelectedValue="{Binding Selected}">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource Settings}">
+                        <Label Content="Civilizations per player"/>
+                        <ComboBox x:Name="CivsPerPLayer" HorizontalAlignment="Center" Width="60" 
+                                  HorizontalContentAlignment="Center"
+                                  DataContext="{Binding CivsPerPlayer}"
+                                  ItemsSource="{Binding Amount}"
+                                  SelectedValue="{Binding Selected}">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Selected / Minimum" />
+                        <TextBlock HorizontalAlignment="Center" FontSize="18" Foreground="AliceBlue">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}">
+                                    <Binding Path="NumberOfSelectedCivs"/>
+                                    <Binding Path="MinimumCivs"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                
+                <!--Second row-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <CheckBox IsChecked="{Binding RiseAndFallCheckBox.AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        Rise and Fall
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding GatheringStormCheckBox.AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        Gathering Storm
+                    </CheckBox>
+                    <Button x:Name="Submit" Style="{StaticResource Settings}" 
+                        VerticalAlignment="Bottom" 
+                        Height="45" Width="80"
+                        Foreground="black" FontSize="18"
+                        BorderBrush="black" BorderThickness="0"
+                        Content="Draft" FontWeight="Bold"
+                        Command="{Binding SubmitCommand}">
+                        <Button.Background>
+                            <LinearGradientBrush>
+                                <GradientStop Color="white" Offset="0."/>
+                                <GradientStop Color="LightYellow" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </StackPanel>            
+        </Border>        
+
+        <!--List of all civilizations-->
+        <ScrollViewer>
+            <StackPanel Margin="40,20">
+                <ItemsControl x:Name="ListviewCivilizations"
+                          ItemsSource="{Binding CivButtonList}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          HorizontalAlignment="Center">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Style="{StaticResource CivButton}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>
