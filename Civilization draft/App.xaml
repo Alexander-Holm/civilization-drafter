@@ -3,21 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Civilization_draft"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        
-        <ControlTemplate x:Key="Header">
-            <Border BorderBrush="DarkGoldenrod"
-                    BorderThickness="0,0,0,3"
-                    MinHeight="70">
-                <StackPanel>
-                    <StackPanel.Background>
-                        <SolidColorBrush Color="MidnightBlue" Opacity="0.5"/>
-                    </StackPanel.Background>
-                    <Image Source="/Images/Header_text.png" Width="500" Margin="5"/>
-                </StackPanel>
-            </Border>
-        </ControlTemplate>
-
+    <Application.Resources>        
         <Style x:Key="HeaderStyle" TargetType="Border">
             <Setter Property="Background">
                 <Setter.Value>
@@ -26,11 +12,11 @@
             </Setter>
             <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
             <Setter Property="BorderThickness" Value="0,0,0,3"/>
-            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="MinHeight" Value="0"/>
         </Style>
         <Style x:Key="HeaderText" TargetType="Image">
             <Setter Property="Source" Value="/Images/Header_text.png"/>
-            <Setter Property="Width" Value="500"/>
+            <Setter Property="Width" Value="450"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
 

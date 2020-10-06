@@ -77,8 +77,10 @@ namespace Civilization_draft.ViewModels
         }
         private bool ClickSubmit_CanExecute()
         {
-            if(EnoughCivs == true) { return true; }
-            else { return false; }
+            if(EnoughCivs == true)
+                return true;
+            else 
+                return false;
         }
 
         public ICommand BackCommand { get; private set; }

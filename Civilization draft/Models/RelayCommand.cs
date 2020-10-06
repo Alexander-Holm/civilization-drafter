@@ -8,8 +8,8 @@ using System.Windows.Input;
 namespace Civilization_draft.Models
 {
     // Button functionality for MVVM
-    // Class from:
-    // https://stackoverflow.com/questions/18117294/how-does-this-button-click-work-in-wpf-mvvm/39601781
+    // Class from: https://stackoverflow.com/questions/18117294/how-does-this-button-click-work-in-wpf-mvvm/39601781
+    // https://stackoverflow.com/questions/42113388/what-is-the-reason-for-icommand-in-mvvm
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
@@ -38,6 +38,5 @@ namespace Civilization_draft.Models
         {
             _execute(parameter ?? "<N/A>");
         }
-
     }
 }

@@ -22,7 +22,19 @@
     <DockPanel>
         <!--Header-->
         <Border Style="{StaticResource HeaderStyle}" DockPanel.Dock="Top">
-            <Image Name="HeaderText" Style="{StaticResource HeaderText}"/>
+            <Grid>
+                <Border x:Name="test" Background="Red" Padding="10" Width="100" HorizontalAlignment="Left">
+                    <Button Style="{StaticResource Button}"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding BackCommand}"
+                            Content="Back"
+                            FontSize="18" FontWeight="DemiBold"/>
+                </Border>
+
+                <Image Name="HeaderText" Style="{StaticResource HeaderText}">
+                </Image>
+                
+            </Grid>
         </Border>
         
         <DockPanel>
@@ -40,9 +52,7 @@
                 </Button>
             </Border>
 
-
-
-
+            <!--Content-->
             <Border Margin="50,15" Padding="15,0"
                     BorderBrush="Purple" BorderThickness="3"
                     CornerRadius="25">
