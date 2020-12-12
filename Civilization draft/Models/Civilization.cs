@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Civilization_draft.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Civilization_draft
             {
                 string jsonCivilizations = r.ReadToEnd();
                 List<Civilization> civilizationList = new JavaScriptSerializer().Deserialize<List<Civilization>>(jsonCivilizations);
-                return civilizationList;
+                return civilizationList.OrderBy(c => c.Name).ToList();
             }
         }
     }

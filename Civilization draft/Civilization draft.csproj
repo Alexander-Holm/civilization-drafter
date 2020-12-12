@@ -72,6 +72,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="används inte för att köra\SkapaGrejjs.cs" />
+    <Compile Include="Models\DataAccess.cs" />
+    <Compile Include="Models\Dlc.cs" />
     <Compile Include="Models\NotifyPropertyChangedBase.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
@@ -130,6 +132,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\Civilizations.json" />
+    <None Include="Resources\Dlc.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

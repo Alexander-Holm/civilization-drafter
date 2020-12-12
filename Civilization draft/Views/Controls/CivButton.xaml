@@ -13,13 +13,12 @@
             <!--Styles the dlc text-->
             <Style x:Key="Dlc" TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="12"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Dlc}" Value="R&amp;F">
-                        <Setter Property="Foreground" Value="Brown"/>
-                        <Setter Property="FontFamily" Value="Allegro"/>
+                    <DataTrigger Binding="{Binding Dlc.Abbreviation}"  Value="R&amp;F">
+                        <Setter Property="FontFamily" Value="Cambria"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Dlc}" Value="GS">
-                        <Setter Property="Foreground" Value="Blue"/>
+                    <DataTrigger Binding="{Binding Dlc.Abbreviation}"  Value="GS">
                         <Setter Property="FontFamily" Value="Comic Sans MS"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -33,7 +32,7 @@
 
                     <!--Determines the overall look of the button-->
                     <Border x:Name="WholeButton"
-                            DataContext="{Binding Civ}"
+                            Padding="6"
                             BorderThickness="1.5" 
                             BorderBrush="Black"
                             CornerRadius="8"
@@ -47,25 +46,26 @@
                             <Border BorderThickness="2"
                                     CornerRadius="2"
                                     BorderBrush="Black" 
-                                    Margin="6"
-                                    Width="25"
+                                    Margin="0,0,6,0"
+                                    Width="30"
                                     HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Image Source="{Binding Image}"/>
+                                <Image Source="{Binding Civ.Image}"/>
                             </Border>
                             <StackPanel>
+                                <!--Using Dockpanel because Stackpanel doesn't fill width-->
                                 <DockPanel>
-                                    <TextBlock Text="{Binding Name}"                                               
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               Margin="0,2,0,0"/>
+                                    <TextBlock Text="{Binding Civ.Name}"                                               
+                                               FontSize="16" FontWeight="Bold"
+                                               TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Style="{StaticResource Dlc}"
-                                               Text="{Binding Dlc}" 
+                                               Text="{Binding Dlc.Abbreviation}" 
+                                               Foreground="{Binding Dlc.Color}"
                                                VerticalAlignment="Top" 
                                                HorizontalAlignment="Right"
-                                               Margin="0,4,5,0"/>
+                                               />
                                 </DockPanel>
-                                <TextBlock Text="{Binding Leader}"
-                                           Margin="0,0,0,3"/>
+                                <TextBlock Text="{Binding Civ.Leader}" 
+                                           FontSize="14" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </DockPanel>
                     </Border>                    

@@ -46,11 +46,10 @@
                 </Style.Triggers>
             </Style>
             <Style x:Key="SettingsCheckBox" TargetType="CheckBox">
-                <Setter Property="Foreground" Value="#ef8354"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="LayoutTransform">
                     <Setter.Value>
-                        <ScaleTransform ScaleX="1.4" ScaleY="1.5" />
+                        <ScaleTransform ScaleX="1.3" ScaleY="1.4" />
                     </Setter.Value>
                 </Setter>
             </Style>
@@ -68,12 +67,12 @@
         <Border Style="{StaticResource HeaderStyle}" DockPanel.Dock="Top">
             <Image Style="{StaticResource HeaderText}"/>
         </Border>
-        
+
         <!--Content-->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <DockPanel>
                 <!--Settings-->
-                <Border DockPanel.Dock="Right"
+                <Border DockPanel.Dock="Right" Width="250"
                         CornerRadius="15"
                         BorderThickness="8" BorderBrush="#003757" 
                         VerticalAlignment="Top" 
@@ -86,30 +85,30 @@
                         <StackPanel.Resources>
                             <Style TargetType="Label" BasedOn="{StaticResource SettingsLabel}"/>
                             <Style TargetType="CheckBox" BasedOn="{StaticResource SettingsCheckBox}"/>
-                            <!--Sets margins for all stackpanels and dockpanels inside this menu-->
+                            <!--Sets margins for all stackpanels inside this menu-->
                             <Style TargetType="StackPanel">
-                                <Setter Property="Margin" Value="5,7"/>
+                                <Setter Property="Margin" Value="3,7"/>
                             </Style>
-                            <Style TargetType="DockPanel">
-                                <Setter Property="Margin" Value="5,5"/>
-                            </Style>                            
                         </StackPanel.Resources>
                         
                         <!--Checkboxes-->
-                        <!--Uses dockpanel to align the checkbox to the left while the text is centered, -->
-                        <!--it also makes it easier to change checkbox size without affecting text-->
-                        <DockPanel>
-                            <CheckBox IsChecked="{Binding VanillaCheckBox.AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left"/>
-                            <Label Content="Vanilla"/>
-                        </DockPanel>
-                        <DockPanel>
-                            <CheckBox IsChecked="{Binding RiseAndFallCheckBox.AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Label Content="Rise and Fall"/>
-                        </DockPanel>
-                        <DockPanel>
-                            <CheckBox IsChecked="{Binding GatheringStormCheckBox.AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Label Content="Gathering Storm"/>
-                        </DockPanel>
+                        <ItemsControl ItemsSource="{Binding DlcCheckboxes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10,0,0,7">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox Grid.Column="0" IsChecked="{Binding AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <Label Grid.Column="1" Content="{Binding Dlc.Fullname}"
+                                               HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>                                
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        
                         <!--Dropdowns-->
                         <StackPanel>
                             <Label Content="Number of players"/>
@@ -150,7 +149,7 @@
                                 <Style TargetType="Button" BasedOn="{StaticResource Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding EnoughCivs}" Value="false">
-                                            <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="Opacity" Value="0.7"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

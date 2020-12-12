@@ -80,7 +80,7 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Border BorderBrush="red"
-                                        BorderThickness="0">
+                                                BorderThickness="0">
                                             <TextBlock Grid.Column="0" 
                                                Text="{Binding PlayerNumber, StringFormat='Player {0}:'}"
                                                FontSize="24"/>

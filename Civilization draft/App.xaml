@@ -1,7 +1,8 @@
 ﻿<Application x:Class="Civilization_draft.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Civilization_draft"
+             xmlns:local="clr-namespace:Civilization_draft" 
+             Startup="Application_Startup"
              StartupUri="MainWindow.xaml">
     <Application.Resources>        
         <Style x:Key="HeaderStyle" TargetType="Border">
