@@ -17,62 +17,28 @@ namespace Civilization_draft_Tests
         //* The expected behavior when the scenario is invoked.
 
         ViewModel viewModel;
+        FakeData fakeData;
+        List<Civilization> civList;
+        SortedList<string, Dlc> dlcSortedList;
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void Test1(bool boolToTest)
+        public ViewModelTests()
         {
-            // Arrange            
-            string dlcToTest = "GS";
-            string dlcOther = "OtherDlc";
-            SortedList<string, Dlc> dlcSortedList = new SortedList<string, Dlc>
-            {
-                { dlcToTest, new Dlc{ Abbreviation = dlcToTest, HasCheckbox = true, } },
-                { dlcOther, new Dlc{ Abbreviation = dlcOther, HasCheckbox = true, } },
+            fakeData = new FakeData();
+            civList = fakeData.GetCivilizations();
+            dlcSortedList = fakeData.GetDlc();
+        }
 
-            };
-            List<Civilization> civList = new List<Civilization>
-            {
-                new Civilization
-                {
-                    Name = "Civ",
-                    Dlc = dlcToTest,
-                    Leader = "Leader"
-                },
-                new Civilization
-                {
-                    Name = "Civ2",
-                    Dlc = dlcToTest,
-                    Leader = "Leader2"
-                },
-                new Civilization
-                {
-                    Name = "Civ3",
-                    Dlc = dlcOther,
-                    Leader = "Leader3"
-                },
-            };
-
-            viewModel = new ViewModel(civList, dlcSortedList);
-            var dlcCheckBox = viewModel.DlcCheckboxes.First(dlcCheckBox => dlcCheckBox.Dlc.Abbreviation == dlcToTest);
-            dlcCheckBox.AllSelected = !boolToTest;
+        [Fact]
+        public void Constructor_NoEmptyStringAsKeyInDlcSortedList_AddDlcCheckBoxWithEmptyAbbreviation()
+        {
+            // Arrange
+            dlcSortedList.Remove("");
 
             // Act
-            dlcCheckBox.AllSelected = boolToTest;
-            bool testFail = false;
-            foreach (var civButton in viewModel.CivButtonList)
-            {
-                if (civButton.Dlc.Abbreviation == dlcCheckBox.Dlc.Abbreviation
-                    &&
-                    civButton.IsChecked != boolToTest)
-                {
-                    testFail = true;
-                }
-            }
+            viewModel = new ViewModel(civList, dlcSortedList);
 
             // Assert
-            Assert.True(!testFail);
+            Assert.Contains(viewModel.DlcCheckboxes, checkBox => checkBox.Dlc.Abbreviation == "");
         }
     }
 }
