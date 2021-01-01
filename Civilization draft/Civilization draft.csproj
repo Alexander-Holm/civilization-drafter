@@ -72,8 +72,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="används inte för att köra\SkapaGrejjs.cs" />
+    <Compile Include="Models\AmountSetting.cs" />
+    <Compile Include="Models\CivButton.cs" />
     <Compile Include="Models\DataAccess.cs" />
-    <Compile Include="Models\Dlc.cs" />
+    <Compile Include="Models\DlcCheckBox.cs" />
+    <Compile Include="Models\JsonModels\Dlc.cs" />
     <Compile Include="Models\NotifyPropertyChangedBase.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
@@ -91,7 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Civilization.cs" />
+    <Compile Include="Models\JsonModels\Civilization.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -4,6 +4,7 @@ using Civilization_draft.ViewModels;
 using System.Collections.Generic;
 using Civilization_draft.Models;
 using System.Linq;
+using Civilization_draft.Models.JsonModels;
 
 namespace Civilization_draft_Tests
 {

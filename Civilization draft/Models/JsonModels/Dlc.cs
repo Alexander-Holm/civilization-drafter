@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civilization_draft.Models
+namespace Civilization_draft.Models.JsonModels
 {
     public class Dlc
     {

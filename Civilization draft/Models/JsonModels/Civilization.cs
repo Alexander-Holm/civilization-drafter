@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace Civilization_draft.Models
+namespace Civilization_draft.Models.JsonModels
 {
     public class Civilization
     {

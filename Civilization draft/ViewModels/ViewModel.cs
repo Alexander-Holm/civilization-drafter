@@ -1,4 +1,5 @@
 ﻿using Civilization_draft.Models;
+using Civilization_draft.Models.JsonModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace Civilization_draft.ViewModels
 {
     public class ViewModel : NotifyPropertyChangedBase
     {
-        // ViewModel Constructor
+        #region Constructor
         public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
         {
             Dlc noDlc = new Dlc { Fullname = "Base game", Abbreviation = "", HasCheckbox = true };
@@ -38,13 +39,17 @@ namespace Civilization_draft.ViewModels
             foreach (var dlc in dlcSortedList.Values)
             {
                 if (dlc.HasCheckbox == true)
-                    DlcCheckboxes.Add(new DlcCheckbox(CivButtonList, dlc));
+                {
+                    var civButtonsOfDlc = CivButtonList.Where(cb => cb.Dlc.Abbreviation == dlc.Abbreviation).ToList();
+                    DlcCheckboxes.Add(new DlcCheckbox(dlc, civButtonsOfDlc));
+                }
             }
 
             CalculateCivRatio();
 
             _currentView = 1;
-        }
+        } 
+        #endregion
         // TEMP
         Dictionary<string, int> duplicateLeaders = new Dictionary<string, int>();
         void dl(List<Civilization> list)
@@ -115,7 +120,7 @@ namespace Civilization_draft.ViewModels
             CurrentView = 1;
         }
                 
-        #region Internal methods
+        #region Methods
         private List<CivButton> CreateCivButtons(List<Civilization> civList, SortedList<string, Dlc> dlcList)
         {
             List<CivButton> outputList = new List<CivButton>();
@@ -164,150 +169,10 @@ namespace Civilization_draft.ViewModels
         } 
         #endregion
 
-        // --- ViewModel classes ---
-        public class CivButton : NotifyPropertyChangedBase
-        {
-            // Civilization Civ is a property because CivButton cannot inherit from two classes
-            public Civilization Civ { get; set; }
-            public Dlc Dlc { get; set; }
-            public Action OnIsCheckedChanged;
-            private bool _isChecked;
-            public bool IsChecked
-            {
-                get { return _isChecked; }
-                set
-                {
-                    if (_isChecked != value)
-                    {
-                        _isChecked = value;
-                        NotifyPropertyChanged();
-                        OnIsCheckedChanged?.Invoke();
-                    }
-                }
-            }            
-
-            // Constructor
-            public CivButton(Civilization civ, Dlc dlc)
-            {
-                this.Civ = civ;
-                this.Dlc = dlc;
-                _isChecked = true;
-            }
-        }
-        public class AmountSetting : NotifyPropertyChangedBase
-        {
-            // Constructor
-            public AmountSetting(int maxAmount, int preselectedAmount)
-            {                
-                _selected = preselectedAmount;
-                Amount = FillAmountArray(maxAmount);
-            }
-
-            #region Properties
-            public int[] Amount { get; set; }
-            public Action OnSelectedChanged;
-            private int _selected;
-            public int Selected
-            {
-                get { return _selected; }
-                set
-                {
-                    if (_selected != value)
-                    {
-                        _selected = value;
-                        NotifyPropertyChanged();
-                        OnSelectedChanged?.Invoke();
-                    }
-                }
-            } 
-            #endregion
-
-            private int[] FillAmountArray(int amount)
-            {
-                int[] arr = new int[amount];
-                for(int i=0; i<amount; i++)
-                {
-                    arr[i] = i+1;
-                }
-                return arr;
-            }
-        }
         public class PlayerResult
         {
             public int PlayerNumber { get; set; }
             public List<CivButton> Civs { get; set; } = new List<CivButton>();
-        }
-        
-        public class DlcCheckbox : NotifyPropertyChangedBase
-        {
-            // https://stackoverflow.com/questions/48955781/wpf-select-all-checkbox-in-a-datagrid/48989696
-
-            // Constructor
-            public DlcCheckbox(List<CivButton> civButtons, Dlc dlc)
-            {                
-                AllCivButtons = civButtons;
-                Dlc = dlc;
-                foreach(var civButton in AllCivButtons)
-                {                    
-                    if (civButton.Civ.Dlc == Dlc.Abbreviation)
-                    {
-                        // If a civButton's IsSelected is changed it needs to run RecheckAllSelected to update DlcCheckbox
-                        // RecheckAllSelected is run through DlcCheckboxPropertyChanged
-                        civButton.PropertyChanged += DlcCheckboxPropertyChanged;
-                    }
-                }
-                RecheckAllSelected();
-            }
-
-            public Dlc Dlc { get; set; }
-            private List<CivButton> AllCivButtons;
-            private bool? _allSelected;
-            public bool? AllSelected
-            {
-                get { return _allSelected; }
-                set
-                {
-                    if(value != _allSelected)
-                    {
-                        _allSelected = value;
-                        NotifyPropertyChanged();
-                        AllSelectedChanged();
-                    }
-                }
-            }
-
-            private void AllSelectedChanged()
-            {
-                if(AllSelected == true)
-                {
-                    foreach(var item in AllCivButtons.Where(a=> a.Civ.Dlc == Dlc.Abbreviation))
-                    {
-                        item.IsChecked = true;
-                    }
-                }
-                else if(AllSelected == false)
-                {
-                    foreach (var item in AllCivButtons.Where(a => a.Civ.Dlc == Dlc.Abbreviation))
-                    {
-                        item.IsChecked = false;
-                    }
-                }
-            }
-            private void RecheckAllSelected()
-            {
-                if (AllCivButtons.Where(a => a.Civ.Dlc == Dlc.Abbreviation).All(a => a.IsChecked))
-                    AllSelected = true;
-                else if (AllCivButtons.Where(a => a.Civ.Dlc == Dlc.Abbreviation).All(a => !a.IsChecked))
-                    AllSelected = false;
-                else
-                    AllSelected = null;
-            }
-            private void DlcCheckboxPropertyChanged(object sender, PropertyChangedEventArgs args)
-            {
-                // Only re-check if the IsChecked property changed
-                if (args.PropertyName == nameof(CivButton.IsChecked))
-                    RecheckAllSelected();
-            }
         }
     }
 }
