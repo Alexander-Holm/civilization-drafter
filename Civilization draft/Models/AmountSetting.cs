@@ -25,20 +25,10 @@ namespace Civilization_draft.Models
             }
         }
 
-        public AmountSetting(int maxAmount, int preselectedAmount)
+        public AmountSetting(int[] values, int preselectedAmount)
         {
             _selected = preselectedAmount;
-            Values = FillAmountArray(maxAmount);
+            Values = values;
         } 
-
-        private int[] FillAmountArray(int amount)
-        {
-            int[] arr = new int[amount];
-            for (int i = 0; i < amount; i++)
-            {
-                arr[i] = i + 1;
-            }
-            return arr;
-        }
     }
 }

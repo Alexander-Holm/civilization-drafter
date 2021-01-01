@@ -18,17 +18,20 @@ namespace Civilization_draft.ViewModels
         #region Constructor
         public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
         {
-            Dlc noDlc = new Dlc { Fullname = "Base game", Abbreviation = "", HasCheckbox = true };
-            dlcSortedList.Add(noDlc.Abbreviation, noDlc);
+            if (!dlcSortedList.ContainsKey(""))
+            {
+                Dlc noDlc = new Dlc { Abbreviation = "", Fullname = "Base game", HasCheckbox = true };
+                dlcSortedList.Add(noDlc.Abbreviation, noDlc);
+            }
 
             SubmitCommand = new RelayCommand(o => ClickSubmit(), o => ClickSubmit_CanExecute());
             BackCommand = new RelayCommand(o => ClickBack());
 
+            CivsPerPlayer = new AmountSetting(Enumerable.Range(1, 10).ToArray(), 3);
+            NumberOfPlayers = new AmountSetting(Enumerable.Range(1, 12).ToArray(), 1);
             Action onAmountSelectedChanged = CalculateCivRatio;
             onAmountSelectedChanged += () => NotifyPropertyChanged(nameof(MinimumCivs));
-            CivsPerPlayer = new AmountSetting(8, 3);
             CivsPerPlayer.OnSelectedChanged += onAmountSelectedChanged;
-            NumberOfPlayers = new AmountSetting(12, 1);
             NumberOfPlayers.OnSelectedChanged += onAmountSelectedChanged;
 
             dl(civList); // TEMP
@@ -123,9 +126,10 @@ namespace Civilization_draft.ViewModels
         #region Methods
         private List<CivButton> CreateCivButtons(List<Civilization> civList, SortedList<string, Dlc> dlcList)
         {
-            List<CivButton> outputList = new List<CivButton>();
             Action onIsCheckedChanged = CalculateCivRatio;
-            onIsCheckedChanged = () => NotifyPropertyChanged(nameof(NumberOfSelectedCivs));
+            onIsCheckedChanged += () => NotifyPropertyChanged(nameof(NumberOfSelectedCivs));
+
+            List<CivButton> outputList = new List<CivButton>();
             foreach (var civ in civList)
             {
                 Dlc dlc;
@@ -166,7 +170,7 @@ namespace Civilization_draft.ViewModels
             {
                 EnoughCivs = false;
             }
-        } 
+        }
         #endregion
 
         public class PlayerResult
