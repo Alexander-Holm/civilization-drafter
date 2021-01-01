@@ -11,6 +11,6 @@ namespace Civilization_draft.Models
         public string Abbreviation { get; set; }
         public string Fullname { get; set; }
         public string Color { get; set; }
-        public bool Checkbox { get; set; }
+        public bool HasCheckbox { get; set; }
     }
 }

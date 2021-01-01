@@ -1,4 +1,5 @@
-﻿using Civilization_draft.ViewModels;
+﻿using Civilization_draft.Models;
+using Civilization_draft.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,9 @@ namespace Civilization_draft
         public MainWindow()
         {
             InitializeComponent();
-            var vm = new ViewModel();
+            var civList = DataAccess.LoadCivilizations();
+            var dlcSortedList = DataAccess.LoadDlc();
+            var vm = new ViewModel(civList, dlcSortedList);
             this.DataContext = vm;
         }
     }        

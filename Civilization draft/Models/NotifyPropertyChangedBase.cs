@@ -10,7 +10,7 @@ namespace Civilization_draft.Models
 {
     // https://gunnarpeipman.com/inotifypropertychanged/
     // https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=netframework-4.8
-    class NotifyPropertyChangedBase : INotifyPropertyChanged
+    public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {        
         public event PropertyChangedEventHandler PropertyChanged;
         protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")

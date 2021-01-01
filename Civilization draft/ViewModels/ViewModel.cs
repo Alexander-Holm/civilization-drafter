@@ -12,10 +12,10 @@ using System.Windows.Input;
 
 namespace Civilization_draft.ViewModels
 {
-    class ViewModel : NotifyPropertyChangedBase
+    public class ViewModel : NotifyPropertyChangedBase
     {
         // ViewModel Constructor
-        public ViewModel()
+        public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
         {
             SubmitCommand = new RelayCommand(o => ClickSubmit(), o=> ClickSubmit_CanExecute());
             BackCommand = new RelayCommand(o => ClickBack());
@@ -23,19 +23,30 @@ namespace Civilization_draft.ViewModels
             CivsPerPlayer = new AmountSetting(8, 3, this);
             NumberOfPlayers = new AmountSetting(12, 1, this);
 
-            var dlcList = DataAccess.LoadDlc();
-            CivButtonList = CreateCivButtons(DataAccess.LoadCivilizations(), dlcList);
-            Dlc noDlc = new Dlc { Fullname = "Vanilla", Abbreviation = "" };
+            //var civList = DataAccess.LoadCivilizations();
+            dl(civList);
+
+            CivButtonList = CreateCivButtons(civList, dlcSortedList);
+            Dlc noDlc = new Dlc { Fullname = "Base game", Abbreviation = "" };
             DlcCheckboxes = new List<DlcCheckbox> { new DlcCheckbox(CivButtonList, noDlc) };
-            foreach (var dlc in dlcList.Values)
+            foreach (var dlc in dlcSortedList.Values)
             {
-                if (dlc.Checkbox == true)
+                if (dlc.HasCheckbox == true)
                     DlcCheckboxes.Add(new DlcCheckbox(CivButtonList, dlc));
             }
 
             CalculateCivRatio();
 
             _currentView = 1;
+        }
+
+        Dictionary<string, int> duplicateLeaders = new Dictionary<string, int>();
+        void dl(List<Civilization> list)
+        {
+            duplicateLeaders = list
+                .GroupBy(c => c.Name)
+                .Where(g => g.Count() > 1)
+                .ToDictionary(x => x.Key, x => x.Count());
         }
 
         // --- Fields and properties ---       
@@ -62,9 +73,9 @@ namespace Civilization_draft.ViewModels
                 }
             }
         }
-        public DlcCheckbox RiseAndFallCheckBox { get; set; }
-        public DlcCheckbox GatheringStormCheckBox { get; set; }
-        public DlcCheckbox VanillaCheckBox { get; set; }
+        //public DlcCheckbox RiseAndFallCheckBox { get; set; }
+        //public DlcCheckbox GatheringStormCheckBox { get; set; }
+        //public DlcCheckbox VanillaCheckBox { get; set; }
         public List<CivButton> CivButtonList { get; set; }
         public List<CivButton> SelectedCivs { get; set; }
         public List<PlayerResult> Players { get; set; }
@@ -100,17 +111,19 @@ namespace Civilization_draft.ViewModels
         {
             CurrentView = 1;
         }
-        
-        // --- Internal methods ---
+                
+        #region Internal methods
         private List<CivButton> CreateCivButtons(List<Civilization> civList, SortedList<string, Dlc> dlcList)
         {
             List<CivButton> outputList = new List<CivButton>();
             foreach (var civ in civList)
             {
                 Dlc dlc;
-                dlcList.TryGetValue(civ.Dlc, out dlc);
-                var civButton = new CivButton(civ, dlc, this); // this == viewmodel
-                outputList.Add(civButton);
+                if (dlcList.TryGetValue(civ.Dlc, out dlc))
+                {
+                    var civButton = new CivButton(civ, dlc, this); // this == viewmodel
+                    outputList.Add(civButton);
+                }
             }
             return outputList;
         }
@@ -118,11 +131,11 @@ namespace Civilization_draft.ViewModels
         {
             Players = new List<PlayerResult>();
             var rnd = new Random();
-            for(int i=0; i < NumberOfPlayers.Selected; i++)
+            for (int i = 0; i < NumberOfPlayers.Selected; i++)
             {
                 var player = new PlayerResult();
                 player.PlayerNumber = i + 1;
-                for(int j=0; j<CivsPerPlayer.Selected; j++)
+                for (int j = 0; j < CivsPerPlayer.Selected; j++)
                 {
                     int randomIndex = rnd.Next(SelectedCivs.Count());
                     var civ = SelectedCivs[randomIndex];
@@ -134,16 +147,17 @@ namespace Civilization_draft.ViewModels
         }
         private void CalculateCivRatio()
         {
-            if(NumberOfSelectedCivs >= MinimumCivs)
+            if (NumberOfSelectedCivs >= MinimumCivs)
             {
                 EnoughCivs = true;
             }
-            else if(NumberOfSelectedCivs < MinimumCivs)
+            else if (NumberOfSelectedCivs < MinimumCivs)
             {
                 EnoughCivs = false;
             }
-        }
-        
+        } 
+        #endregion
+
         // --- ViewModel classes ---
         // Have to pass the ViewModel in constructor to use NotifyPropertyChanged on ViewModel properties
 
@@ -180,11 +194,11 @@ namespace Civilization_draft.ViewModels
         public class AmountSetting : NotifyPropertyChangedBase
         {
             // Constructor
-            public AmountSetting(int amount, int selectedAmount, ViewModel viewModel)
+            public AmountSetting(int maxAmount, int preselectedAmount, ViewModel viewModel)
             {
                 this.viewModel = viewModel;
-                _selected = selectedAmount;
-                Amount = FillAmountArray(amount);
+                _selected = preselectedAmount;
+                Amount = FillAmountArray(maxAmount);
             }
 
             #region Properties
@@ -237,7 +251,7 @@ namespace Civilization_draft.ViewModels
                     if (civButton.Civ.Dlc == Dlc.Abbreviation)
                     {
                         // If a civButton's IsSelected is changed it needs to run RecheckAllSelected to update DlcCheckbox
-                        //  RecheckAllSelected is run through DlcCheckboxPropertyChanged
+                        // RecheckAllSelected is run through DlcCheckboxPropertyChanged
                         civButton.PropertyChanged += DlcCheckboxPropertyChanged;
                     }
                 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace Civilization_draft
+namespace Civilization_draft.Models
 {
     public class Civilization
     {
@@ -22,17 +22,6 @@ namespace Civilization_draft
                 return "/Civilization draft;component/Images/Civs/" + _image;
             }
             set { _image = value; }
-        }
-
-        public static List<Civilization> GetCivilizationsList()
-        {
-            string filepath = "Resources/Civilizations.json";
-            using (StreamReader r = new StreamReader(filepath))
-            {
-                string jsonCivilizations = r.ReadToEnd();
-                List<Civilization> civilizationList = new JavaScriptSerializer().Deserialize<List<Civilization>>(jsonCivilizations);
-                return civilizationList.OrderBy(c => c.Name).ToList();
-            }
         }
     }
 }

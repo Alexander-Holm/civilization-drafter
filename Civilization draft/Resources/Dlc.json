@@ -3,18 +3,18 @@
     "Abbreviation": "GS",
 	"Fullname": "Gathering Storm",
     "Color": "#007acc",
-    "Checkbox": true
+    "HasCheckbox": true
   },
   {
 	"Abbreviation": "R&F",
 	"Fullname": "Rise & Fall",
     "Color": "#a82700",
-    "Checkbox": true
+    "HasCheckbox": true
   },
   {
 	"Abbreviation": "ABC",
 	"Fullname": "En annan",
     "Color": "#ff0707",
-    "Checkbox": false
+    "HasCheckbox": true
   }
 ]

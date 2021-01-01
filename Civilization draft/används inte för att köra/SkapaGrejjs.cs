@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Civilization_draft.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Civilization_draft.används_inte_för_att_köra
         {
             string mappAttLäsaFrån = @"";
             string mappAttSkrivaTill = @"";
-            var listOfAllCivilizations = Civilization.GetCivilizationsList().ToArray();
+            var listOfAllCivilizations = DataAccess.LoadCivilizations().ToArray();
             string[] fileArray = Directory.GetFiles(mappAttLäsaFrån, "*.png");
             int j = 0;
             for (int i = 0; i < listOfAllCivilizations.Length; i++)
