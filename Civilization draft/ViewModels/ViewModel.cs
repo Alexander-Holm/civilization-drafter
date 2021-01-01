@@ -17,18 +17,24 @@ namespace Civilization_draft.ViewModels
         // ViewModel Constructor
         public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
         {
-            SubmitCommand = new RelayCommand(o => ClickSubmit(), o=> ClickSubmit_CanExecute());
-            BackCommand = new RelayCommand(o => ClickBack());
-            
-            CivsPerPlayer = new AmountSetting(8, 3, this);
-            NumberOfPlayers = new AmountSetting(12, 1, this);
+            Dlc noDlc = new Dlc { Fullname = "Base game", Abbreviation = "", HasCheckbox = true };
+            dlcSortedList.Add(noDlc.Abbreviation, noDlc);
 
-            //var civList = DataAccess.LoadCivilizations();
-            dl(civList);
+            SubmitCommand = new RelayCommand(o => ClickSubmit(), o => ClickSubmit_CanExecute());
+            BackCommand = new RelayCommand(o => ClickBack());
+
+            Action onAmountSelectedChanged = CalculateCivRatio;
+            onAmountSelectedChanged += () => NotifyPropertyChanged(nameof(MinimumCivs));
+            CivsPerPlayer = new AmountSetting(8, 3);
+            CivsPerPlayer.OnSelectedChanged += onAmountSelectedChanged;
+            NumberOfPlayers = new AmountSetting(12, 1);
+            NumberOfPlayers.OnSelectedChanged += onAmountSelectedChanged;
+
+            dl(civList); // TEMP
 
             CivButtonList = CreateCivButtons(civList, dlcSortedList);
-            Dlc noDlc = new Dlc { Fullname = "Base game", Abbreviation = "" };
-            DlcCheckboxes = new List<DlcCheckbox> { new DlcCheckbox(CivButtonList, noDlc) };
+
+            DlcCheckboxes = new List<DlcCheckbox>();
             foreach (var dlc in dlcSortedList.Values)
             {
                 if (dlc.HasCheckbox == true)
@@ -39,7 +45,7 @@ namespace Civilization_draft.ViewModels
 
             _currentView = 1;
         }
-
+        // TEMP
         Dictionary<string, int> duplicateLeaders = new Dictionary<string, int>();
         void dl(List<Civilization> list)
         {
@@ -73,9 +79,6 @@ namespace Civilization_draft.ViewModels
                 }
             }
         }
-        //public DlcCheckbox RiseAndFallCheckBox { get; set; }
-        //public DlcCheckbox GatheringStormCheckBox { get; set; }
-        //public DlcCheckbox VanillaCheckBox { get; set; }
         public List<CivButton> CivButtonList { get; set; }
         public List<CivButton> SelectedCivs { get; set; }
         public List<PlayerResult> Players { get; set; }
@@ -116,12 +119,15 @@ namespace Civilization_draft.ViewModels
         private List<CivButton> CreateCivButtons(List<Civilization> civList, SortedList<string, Dlc> dlcList)
         {
             List<CivButton> outputList = new List<CivButton>();
+            Action onIsCheckedChanged = CalculateCivRatio;
+            onIsCheckedChanged = () => NotifyPropertyChanged(nameof(NumberOfSelectedCivs));
             foreach (var civ in civList)
             {
                 Dlc dlc;
                 if (dlcList.TryGetValue(civ.Dlc, out dlc))
                 {
-                    var civButton = new CivButton(civ, dlc, this); // this == viewmodel
+                    var civButton = new CivButton(civ, dlc);
+                    civButton.OnIsCheckedChanged += onIsCheckedChanged;
                     outputList.Add(civButton);
                 }
             }
@@ -159,14 +165,12 @@ namespace Civilization_draft.ViewModels
         #endregion
 
         // --- ViewModel classes ---
-        // Have to pass the ViewModel in constructor to use NotifyPropertyChanged on ViewModel properties
-
         public class CivButton : NotifyPropertyChangedBase
         {
             // Civilization Civ is a property because CivButton cannot inherit from two classes
             public Civilization Civ { get; set; }
             public Dlc Dlc { get; set; }
-            private ViewModel viewModel;
+            public Action OnIsCheckedChanged;
             private bool _isChecked;
             public bool IsChecked
             {
@@ -177,15 +181,14 @@ namespace Civilization_draft.ViewModels
                     {
                         _isChecked = value;
                         NotifyPropertyChanged();
-                        viewModel.NotifyPropertyChanged("NumberOfSelectedCivs");
-                        viewModel.CalculateCivRatio();
+                        OnIsCheckedChanged?.Invoke();
                     }
                 }
-            }
+            }            
+
             // Constructor
-            public CivButton(Civilization civ, Dlc dlc, ViewModel viewModel)
+            public CivButton(Civilization civ, Dlc dlc)
             {
-                this.viewModel = viewModel;
                 this.Civ = civ;
                 this.Dlc = dlc;
                 _isChecked = true;
@@ -194,16 +197,15 @@ namespace Civilization_draft.ViewModels
         public class AmountSetting : NotifyPropertyChangedBase
         {
             // Constructor
-            public AmountSetting(int maxAmount, int preselectedAmount, ViewModel viewModel)
-            {
-                this.viewModel = viewModel;
+            public AmountSetting(int maxAmount, int preselectedAmount)
+            {                
                 _selected = preselectedAmount;
                 Amount = FillAmountArray(maxAmount);
             }
 
             #region Properties
-            private ViewModel viewModel;
             public int[] Amount { get; set; }
+            public Action OnSelectedChanged;
             private int _selected;
             public int Selected
             {
@@ -214,8 +216,7 @@ namespace Civilization_draft.ViewModels
                     {
                         _selected = value;
                         NotifyPropertyChanged();
-                        viewModel.NotifyPropertyChanged("MinimumCivs");
-                        viewModel.CalculateCivRatio();
+                        OnSelectedChanged?.Invoke();
                     }
                 }
             } 
