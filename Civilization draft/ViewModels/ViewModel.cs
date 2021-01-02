@@ -23,20 +23,18 @@ namespace Civilization_draft.ViewModels
                 Dlc noDlc = new Dlc { Abbreviation = "", Fullname = "Base game", HasCheckbox = true };
                 dlcSortedList.Add(noDlc.Abbreviation, noDlc);
             }
+            CivButtonList = CreateCivButtons(civList, dlcSortedList);
 
-            SubmitCommand = new RelayCommand(o => ClickSubmit(), o => ClickSubmit_CanExecute());
-            BackCommand = new RelayCommand(o => ClickBack());
+            AllowDuplicateCivs = true;
+            AllowDuplicateLeaders = true;
+
+            SubmitCommand = new RelayCommand(o => ClickSubmit(), o => EnoughCivs);
+            BackCommand = new RelayCommand(o => CurrentView = 1);
 
             CivsPerPlayer = new AmountSetting(Enumerable.Range(1, 10).ToArray(), 3);
             NumberOfPlayers = new AmountSetting(Enumerable.Range(1, 12).ToArray(), 1);
-            Action onAmountSelectedChanged = CalculateCivRatio;
-            onAmountSelectedChanged += () => NotifyPropertyChanged(nameof(MinimumCivs));
-            CivsPerPlayer.OnSelectedChanged += onAmountSelectedChanged;
-            NumberOfPlayers.OnSelectedChanged += onAmountSelectedChanged;
-
-            dl(civList); // TEMP
-
-            CivButtonList = CreateCivButtons(civList, dlcSortedList);
+            CivsPerPlayer.OnSelectedChanged += NotifyCivRatioChanged;
+            NumberOfPlayers.OnSelectedChanged += NotifyCivRatioChanged;
 
             DlcCheckboxes = new List<DlcCheckbox>();
             foreach (var dlc in dlcSortedList.Values)
@@ -48,22 +46,11 @@ namespace Civilization_draft.ViewModels
                 }
             }
 
-            CalculateCivRatio();
-
             _currentView = 1;
-        } 
-        #endregion
-        // TEMP
-        Dictionary<string, int> duplicateLeaders = new Dictionary<string, int>();
-        void dl(List<Civilization> list)
-        {
-            duplicateLeaders = list
-                .GroupBy(c => c.Name)
-                .Where(g => g.Count() > 1)
-                .ToDictionary(x => x.Key, x => x.Count());
         }
-
-        // --- Fields and properties ---       
+        #endregion
+    
+        #region Fields and properties
         private int _currentView;
         public int CurrentView
         {
@@ -71,64 +58,91 @@ namespace Civilization_draft.ViewModels
             set { _currentView = value; NotifyPropertyChanged(); }
         }
         public List<DlcCheckbox> DlcCheckboxes { get; set; }
-        public AmountSetting CivsPerPlayer { get; set; } 
-        public AmountSetting NumberOfPlayers { get; set; } 
+        public AmountSetting CivsPerPlayer { get; set; }
+        public AmountSetting NumberOfPlayers { get; set; }
         public int MinimumCivs { get { return (CivsPerPlayer.Selected * NumberOfPlayers.Selected); } }
-        public int NumberOfSelectedCivs { get { return CivButtonList.Count(a=>a.IsChecked); } }
-        private bool _enoughCivs;
-        public bool EnoughCivs { 
-            get { return _enoughCivs; }
+        public int SelectedCivsCount
+        {
+            get
+            {
+                var selectedCivs = CivButtonList.Where(a => a.IsChecked).ToList();
+                if (AllowDuplicateCivs == false)
+                {
+                    selectedCivs = selectedCivs
+                        .GroupBy(c => c.Civ.Name)
+                        .Select(g => g.First()).ToList();
+                }
+                if (AllowDuplicateLeaders == false)
+                {
+                    selectedCivs = selectedCivs
+                        .GroupBy(c => c.Civ.Leader)
+                        .Select(g => g.First()).ToList();
+                }
+
+                return selectedCivs.Count;
+            }
+        }
+        private bool _allowDuplicateCivs;
+        public bool AllowDuplicateCivs
+        {
+            get { return _allowDuplicateCivs; }
             set
             {
-                if(value != _enoughCivs)
+                if (_allowDuplicateCivs != value)
                 {
-                    _enoughCivs = value;
-                    NotifyPropertyChanged();
+                    _allowDuplicateCivs = value;
+                    NotifyCivRatioChanged();
                 }
+            }
+        }
+        private bool _allowDuplicateLeaders;
+        public bool AllowDuplicateLeaders
+        {
+            get { return _allowDuplicateLeaders; }
+            set
+            {
+                if (_allowDuplicateLeaders != value)
+                {
+                    _allowDuplicateLeaders = value;
+                    NotifyCivRatioChanged();
+                }
+            }
+        }
+        public bool EnoughCivs
+        {
+            get
+            {
+                if (SelectedCivsCount < MinimumCivs)
+                    return false;
+                return true;
             }
         }
         public List<CivButton> CivButtonList { get; set; }
         public List<CivButton> SelectedCivs { get; set; }
         public List<PlayerResult> Players { get; set; }
+        public ICommand SubmitCommand { get; private set; }
+        public ICommand BackCommand { get; private set; }
+        #endregion
 
-        // --- Commands ---
-        public ICommand SubmitCommand { get; private set; }        
+        #region Command methods
         private void ClickSubmit()
         {
             SelectedCivs = new List<CivButton>();
             foreach (var civ in CivButtonList)
             {
-                if(civ.IsChecked == true)
+                if (civ.IsChecked == true)
                 {
                     SelectedCivs.Add(civ);
                 }
             }
-            if(SelectedCivs.Count() >= MinimumCivs)
-            {
-                AssignCivsToPlayers();
-                CurrentView = 2;
-            }
+            AssignCivsToPlayers();
+            CurrentView = 2;
         }
-        private bool ClickSubmit_CanExecute()
-        {
-            if(EnoughCivs == true)
-                return true;
-            else 
-                return false;
-        }
+        #endregion
 
-        public ICommand BackCommand { get; private set; }
-        private void ClickBack()
-        {
-            CurrentView = 1;
-        }
-                
         #region Methods
         private List<CivButton> CreateCivButtons(List<Civilization> civList, SortedList<string, Dlc> dlcList)
         {
-            Action onIsCheckedChanged = CalculateCivRatio;
-            onIsCheckedChanged += () => NotifyPropertyChanged(nameof(NumberOfSelectedCivs));
-
             List<CivButton> outputList = new List<CivButton>();
             foreach (var civ in civList)
             {
@@ -136,7 +150,7 @@ namespace Civilization_draft.ViewModels
                 if (dlcList.TryGetValue(civ.Dlc, out dlc))
                 {
                     var civButton = new CivButton(civ, dlc);
-                    civButton.OnIsCheckedChanged += onIsCheckedChanged;
+                    civButton.OnIsCheckedChanged += NotifyCivRatioChanged;
                     outputList.Add(civButton);
                 }
             }
@@ -160,16 +174,11 @@ namespace Civilization_draft.ViewModels
                 Players.Add(player);
             }
         }
-        private void CalculateCivRatio()
+        private void NotifyCivRatioChanged()
         {
-            if (NumberOfSelectedCivs >= MinimumCivs)
-            {
-                EnoughCivs = true;
-            }
-            else if (NumberOfSelectedCivs < MinimumCivs)
-            {
-                EnoughCivs = false;
-            }
+            NotifyPropertyChanged(nameof(SelectedCivsCount));
+            NotifyPropertyChanged(nameof(EnoughCivs));
+            NotifyPropertyChanged(nameof(MinimumCivs));
         }
         #endregion
 

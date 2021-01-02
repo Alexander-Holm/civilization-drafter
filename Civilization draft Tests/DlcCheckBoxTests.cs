@@ -24,7 +24,7 @@ namespace Civilization_draft_Tests
         public void AllSelectedChanged_ChangeValue_IsCheckedInConnectedCivButtonsMatchesNewValue(bool? initialValue, bool newValue)
         {
             //Arrange
-            var civList = fakeData.GetCivilizations();
+            var civList = fakeData.GetCivilizations(10);
             var dlcSortedList = fakeData.GetDlc();
             string dlcAbbreviation = fakeData.dlcAbbreviations.Values[0];
 

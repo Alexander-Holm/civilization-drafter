@@ -43,10 +43,10 @@ namespace Civilization_draft_Tests
             }
             return dlcSortedList;
         }
-        public List<Civilization> GetCivilizations()
+        public List<Civilization> GetCivilizations(int amount)
         {
             List<Civilization> civList = new List<Civilization>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < amount; i++)
             {
                 // Example: dlcAbbreviations.Count = 2
                 // i = 0  -> dlcIndex = 0

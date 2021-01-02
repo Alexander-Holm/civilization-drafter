@@ -126,18 +126,40 @@
                                       SelectedValue="{Binding Selected}">
                             </ComboBox>
                         </StackPanel>
+
+                        <Grid Margin="10,0,0,7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <CheckBox Grid.Column="0" IsChecked="{Binding AllowDuplicateCivs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Column="1" Content="Allow duplicate civs"
+                                   HorizontalAlignment="Center"/>
+
+                            <CheckBox Grid.Column="0" Grid.Row="1"
+                                      IsChecked="{Binding AllowDuplicateLeaders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Column="1" Grid.Row="1"
+                                   Content="Allow duplicate leaders"
+                                   HorizontalAlignment="Center"/>
+                        </Grid>
+
                         <!--Selected / Minimum-->
                         <StackPanel>
                             <Label Content="Selected / Minimum" />
                             <TextBlock Style="{StaticResource CivRatio}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} / {1}">
-                                        <Binding Path="NumberOfSelectedCivs"/>
+                                        <Binding Path="SelectedCivsCount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                         <Binding Path="MinimumCivs"/>
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                        </StackPanel>
+                        </StackPanel>                        
                         <!--Draft button-->
                         <Button x:Name="SubmitButton"
                                 Margin="5, 10"
