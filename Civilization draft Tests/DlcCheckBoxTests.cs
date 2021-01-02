@@ -13,11 +13,11 @@ namespace Civilization_draft_Tests
         FakeData fakeData = new FakeData();
 
         [Theory]
-        // Chagne to true
+        // Change to true
         [InlineData(true, true)]
         [InlineData(false, true)]
         [InlineData(null, true)]
-        // Chage to false
+        // Change to false
         [InlineData(true, false)]
         [InlineData(false, false)]
         [InlineData(null, false)]

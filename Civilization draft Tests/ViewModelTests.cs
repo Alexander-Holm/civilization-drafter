@@ -16,15 +16,7 @@ namespace Civilization_draft_Tests
         //* The scenario under which it's being tested.
         //* The expected behavior when the scenario is invoked.
 
-        //ViewModel viewModel;
-        FakeData fakeData;
-        //List<Civilization> civList;
-        //SortedList<string, Dlc> dlcSortedList;
-
-        public ViewModelTests()
-        {
-            fakeData = new FakeData();
-        }
+        FakeData fakeData = new FakeData();
 
         [Fact]
         public void Constructor_NoEmptyStringAsKeyInDlcSortedList_AddDlcCheckBoxWithEmptyAbbreviation()
