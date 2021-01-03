@@ -78,6 +78,7 @@
     <Compile Include="Models\DlcCheckBox.cs" />
     <Compile Include="Models\JsonModels\Dlc.cs" />
     <Compile Include="Models\NotifyPropertyChangedBase.cs" />
+    <Compile Include="Models\PlayerResult.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">

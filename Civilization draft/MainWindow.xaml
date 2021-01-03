@@ -8,7 +8,7 @@
         xmlns:Views="clr-namespace:Civilization_draft.Views"
         mc:Ignorable="d"
         Title="Civilization VI drafter"
-        Width="1080" Height="720" ResizeMode="CanResize"
+        Width="1280" Height="720" ResizeMode="CanResize"
         MinWidth="550" MinHeight="300">
 
     <Window.Resources>

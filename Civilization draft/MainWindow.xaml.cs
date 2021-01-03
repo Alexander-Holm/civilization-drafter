@@ -27,8 +27,8 @@ namespace Civilization_draft
         public MainWindow()
         {
             InitializeComponent();
-            var civList = DataAccess.LoadCivilizations();
-            var dlcSortedList = DataAccess.LoadDlc();
+            var civList = DataAccess.Json.LoadCivilizations();
+            var dlcSortedList = DataAccess.Json.LoadDlc();
             var vm = new ViewModel(civList, dlcSortedList);
             this.DataContext = vm;
         }

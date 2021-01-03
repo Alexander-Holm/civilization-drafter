@@ -16,7 +16,7 @@ namespace Civilization_draft.används_inte_för_att_köra
         {
             string mappAttLäsaFrån = @"";
             string mappAttSkrivaTill = @"";
-            var listOfAllCivilizations = DataAccess.LoadCivilizations().ToArray();
+            var listOfAllCivilizations = DataAccess.Json.LoadCivilizations().ToArray();
             string[] fileArray = Directory.GetFiles(mappAttLäsaFrån, "*.png");
             int j = 0;
             for (int i = 0; i < listOfAllCivilizations.Length; i++)

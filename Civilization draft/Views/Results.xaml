@@ -26,8 +26,8 @@
                 <Border x:Name="test" Background="Red" Padding="10" Width="100" HorizontalAlignment="Left">
                     <Button Style="{StaticResource Button}"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding BackCommand}"
-                            Content="Back"
+                            Command="{Binding CopyResultAsTextCommand}"
+                            Content="C" ToolTip="Copy result as text"
                             FontSize="18" FontWeight="DemiBold"/>
                 </Border>
 
@@ -43,13 +43,21 @@
                     BorderBrush="DarkGoldenrod" BorderThickness="2,0,2,2"
                     CornerRadius="0,0,5,5"
                     HorizontalAlignment="Center">
-                <Button Name="BackButton" Style="{StaticResource Button}"
-                        Command="{Binding BackCommand}"
-                        HorizontalAlignment="Center"
-                        Content="Back"
-                        FontSize="18" FontWeight="DemiBold"
-                        Width="100" Height="40">
-                </Button>
+                <StackPanel Orientation="Vertical">
+                    <Button Name="BackButton" Style="{StaticResource Button}"
+                            Command="{Binding BackCommand}"
+                            HorizontalAlignment="Center"
+                            Content="Back"
+                            FontSize="18" FontWeight="DemiBold"
+                            Width="100" Height="40">
+                    </Button>
+                    <Button Command="{Binding CopyUiElementAsImageCommand}" 
+                            CommandParameter="{Binding ElementName=resultScrollviewer, Path=Content}"
+                            Content="Img"
+                            FontSize="18" FontWeight="DemiBold"
+                            Width="100" Height="40">
+                    </Button>                    
+                </StackPanel>
             </Border>
 
             <!--Content-->
@@ -61,14 +69,14 @@
                     <SolidColorBrush Color="LawnGreen" Opacity="0.2"/>
                 </Border.Background>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="resultScrollviewer" VerticalScrollBarVisibility="Auto">
                     <ScrollViewer.Resources>
                         <Style TargetType="ScrollBar">
                             <Setter Property="Margin" Value="0,15"/>
                         </Style>
                     </ScrollViewer.Resources>
                     <!--List of players-->
-                    <ItemsControl ItemsSource="{Binding Players}">
+                    <ItemsControl ItemsSource="{Binding Result}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--One row-->
