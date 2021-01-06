@@ -135,8 +135,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\Civilizations.json" />
-    <None Include="Resources\Dlc.json" />
+    <None Include="CivData\Civilizations.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CivData\Dlc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -154,50 +158,134 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Background.png" />
-    <Resource Include="Images\Civs\American.png" />
-    <Resource Include="Images\Civs\Arabian.png" />
-    <Resource Include="Images\Civs\Australian.png" />
-    <Resource Include="Images\Civs\Aztec.png" />
-    <Resource Include="Images\Civs\Brazilian.png" />
-    <Resource Include="Images\Civs\Canadian.png" />
-    <Resource Include="Images\Civs\Chinese.png" />
-    <Resource Include="Images\Civs\Cree.png" />
-    <Resource Include="Images\Civs\Dutch.png" />
-    <Resource Include="Images\Civs\Egyptian.png" />
-    <Resource Include="Images\Civs\English.png" />
-    <Resource Include="Images\Civs\French.png" />
-    <Resource Include="Images\Civs\Georgian.png" />
-    <Resource Include="Images\Civs\German.png" />
-    <Resource Include="Images\Civs\Greek.png" />
-    <Resource Include="Images\Civs\Hungarian.png" />
-    <Resource Include="Images\Civs\Incan.png" />
-    <Resource Include="Images\Civs\Indian.png" />
-    <Resource Include="Images\Civs\Indonesian.png" />
-    <Resource Include="Images\Civs\Japanese.png" />
-    <Resource Include="Images\Civs\Khmer.png" />
-    <Resource Include="Images\Civs\Kongolese.png" />
-    <Resource Include="Images\Civs\Korean.png" />
-    <Resource Include="Images\Civs\Macedonian.png" />
-    <Resource Include="Images\Civs\Mali.png" />
-    <Resource Include="Images\Civs\Mapuche.png" />
-    <Resource Include="Images\Civs\Mongolian.png" />
-    <Resource Include="Images\Civs\Māori.png" />
-    <Resource Include="Images\Civs\Norwegian.png" />
-    <Resource Include="Images\Civs\Nubian.png" />
-    <Resource Include="Images\Civs\Ottoman.png" />
-    <Resource Include="Images\Civs\Persian.png" />
-    <Resource Include="Images\Civs\Phoenician.png" />
-    <Resource Include="Images\Civs\Polish.png" />
-    <Resource Include="Images\Civs\Roman.png" />
-    <Resource Include="Images\Civs\Russian.png" />
-    <Resource Include="Images\Civs\Scottish.png" />
-    <Resource Include="Images\Civs\Scythian.png" />
-    <Resource Include="Images\Civs\Spanish.png" />
-    <Resource Include="Images\Civs\Sumerian.png" />
-    <Resource Include="Images\Civs\Swedish.png" />
-    <Resource Include="Images\Civs\Zulu.png" />
-    <Resource Include="Images\Header_text.png" />
+    <Resource Include="Resources\Background.png" />
+    <None Include="Images\American.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Arabian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Australian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Aztec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Brazilian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Canadian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Chinese.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Cree.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Dutch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Egyptian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\English.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\French.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Georgian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\German.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Greek.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Hungarian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Incan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Indian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Indonesian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Japanese.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Khmer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Kongolese.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Korean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Macedonian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Mali.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Mapuche.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Mongolian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Māori.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Norwegian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Nubian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Ottoman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Persian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Phoenician.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Polish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Roman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Russian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Scottish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Scythian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Spanish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Sumerian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Swedish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\Zulu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Resources\Header_text.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

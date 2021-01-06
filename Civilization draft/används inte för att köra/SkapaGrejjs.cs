@@ -12,6 +12,8 @@ namespace Civilization_draft.används_inte_för_att_köra
 {
     public static class SkapaGrejjs
     {
+        // Sätt sökvägarna först!
+
         public static void SkapaBilder()
         {
             string mappAttLäsaFrån = @"";

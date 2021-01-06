@@ -164,7 +164,11 @@ namespace Civilization_draft.ViewModels
                 Dlc dlc;
                 if (dlcList.TryGetValue(civ.Dlc, out dlc))
                 {
+                    Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "Images/" + civ.Image);
+                    BitmapImage image = new BitmapImage(imageUri);
+
                     var civButton = new CivButton(civ, dlc);
+                    civButton.BitmapImage = image;
                     civButton.OnIsCheckedChanged += NotifyCivRatioChanged;
                     outputList.Add(civButton);
                 }

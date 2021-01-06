@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Civilization_draft.Models
 {
@@ -26,6 +27,7 @@ namespace Civilization_draft.Models
                 }
             }
         }
+        public BitmapImage BitmapImage { get; set; }
 
         public CivButton(Civilization civ, Dlc dlc)
         {

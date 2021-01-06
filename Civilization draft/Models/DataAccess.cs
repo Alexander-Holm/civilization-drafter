@@ -17,7 +17,7 @@ namespace Civilization_draft.Models
     {
         public static class Json
         {
-            private static readonly string path = "Resources/";
+            private static readonly string path = AppDomain.CurrentDomain.BaseDirectory + "CivData/";
 
             public static SortedList<string, Dlc> LoadDlc()
             {
