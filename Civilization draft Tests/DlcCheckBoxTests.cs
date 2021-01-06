@@ -28,7 +28,7 @@ namespace Civilization_draft_Tests
             var dlcSortedList = fakeData.GetDlc();
             string dlcAbbreviation = fakeData.dlcAbbreviations.Values[0];
 
-            var viewModel = new ViewModel(civList, dlcSortedList);
+            var viewModel = new ViewModel(civList, dlcSortedList, null);
             var dlcCheckBox = viewModel.DlcCheckboxes.First(x => x.Dlc.Abbreviation == dlcAbbreviation);
             dlcCheckBox.AllSelected = initialValue;
 

@@ -23,6 +23,46 @@ namespace Civilization_draft_Tests
             FakeData fakeData = new FakeData();
 
             [Fact]
+            public void UsingConfig_ConfigValuesInViewModel()
+            {
+                // Arrange
+                Civilization civ = new Civilization
+                {
+                    Name = "testCiv",
+                    Leader = "testLeader"
+                };
+                var civList = fakeData.GetCivilizations(2);
+                civList.Add(civ);
+                var dlcList = fakeData.GetDlc();
+
+                Config config = new Config
+                {
+                    UncheckedCivs = new List<CivSimple>
+                    {
+                        new CivSimple { Civ = civ.Name, Leader = civ.Leader }
+                    },
+                    AllowDuplicateCivs = true,
+                    AllowDuplicateLeaders = false,
+                    SelectedCivsPerPlayer = 5,
+                    SelectedNumberOfPlayers = 5,
+                };
+
+                // Act
+                ViewModel viewModel = new ViewModel(civList, dlcList, config);
+
+                // Assert
+                Assert.True(
+                    viewModel.CivButtonList
+                        .Where(x => x.Civ.Name == civ.Name && x.Civ.Leader == civ.Leader)
+                        .All(x => x.IsChecked == false)
+                    && viewModel.AllowDuplicateCivs == config.AllowDuplicateCivs
+                    && viewModel.AllowDuplicateLeaders == config.AllowDuplicateLeaders
+                    && viewModel.CivsPerPlayer.Selected == config.SelectedCivsPerPlayer
+                    && viewModel.NumberOfPlayers.Selected == config.SelectedNumberOfPlayers
+                );
+            }
+
+            [Fact]
             public void NoEmptyStringAsKeyInDlcSortedList_AddDlcCheckBoxWithEmptyAbbreviation()
             {
                 // Arrange
@@ -31,7 +71,7 @@ namespace Civilization_draft_Tests
                 dlcSortedList.Remove("");
 
                 // Act
-                var viewModel = new ViewModel(civList, dlcSortedList);
+                var viewModel = new ViewModel(civList, dlcSortedList, null);
 
                 // Assert
                 Assert.Contains(viewModel.DlcCheckboxes, checkBox => checkBox.Dlc.Abbreviation == "");
@@ -54,7 +94,7 @@ namespace Civilization_draft_Tests
                 List<Civilization> civList = new List<Civilization> { civToTest, civBaseline };
 
                 // Act
-                var viewModel = new ViewModel(civList, dlcList);
+                var viewModel = new ViewModel(civList, dlcList, null);
 
                 // Assert
                 Assert.True(viewModel.CivButtonList.Count == civList.Count);
@@ -69,7 +109,7 @@ namespace Civilization_draft_Tests
             };
 
                 // Act
-                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+                var viewModel = new ViewModel(civList, fakeData.GetDlc(), null);
 
                 // Assert
                 Assert.True(viewModel.CivButtonList[0].BitmapImage is null);
@@ -99,7 +139,7 @@ namespace Civilization_draft_Tests
                     }
                 }
 
-                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+                var viewModel = new ViewModel(civList, fakeData.GetDlc(), null);
                 viewModel.AllowDuplicateLeaders = true;
                 viewModel.AllowDuplicateCivs = allowDuplicateCivs;
 
@@ -129,7 +169,7 @@ namespace Civilization_draft_Tests
                     }
                 }
 
-                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+                var viewModel = new ViewModel(civList, fakeData.GetDlc(), null);
                 viewModel.AllowDuplicateLeaders = allowDuplicateLeaders;
                 viewModel.AllowDuplicateCivs = true;
 
