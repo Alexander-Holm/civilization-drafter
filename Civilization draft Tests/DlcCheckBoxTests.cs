@@ -29,7 +29,7 @@ namespace Civilization_draft_Tests
             string dlcAbbreviation = fakeData.dlcAbbreviations.Values[0];
 
             var viewModel = new ViewModel(civList, dlcSortedList);
-            var dlcCheckBox = viewModel.DlcCheckboxes.First(dlcCheckBox => dlcCheckBox.Dlc.Abbreviation == dlcAbbreviation);
+            var dlcCheckBox = viewModel.DlcCheckboxes.First(x => x.Dlc.Abbreviation == dlcAbbreviation);
             dlcCheckBox.AllSelected = initialValue;
 
             // Act

@@ -18,79 +18,131 @@ namespace Civilization_draft_Tests
 
         FakeData fakeData = new FakeData();
 
-        [Fact]
-        public void Constructor_NoEmptyStringAsKeyInDlcSortedList_AddDlcCheckBoxWithEmptyAbbreviation()
+        public class Constructor
         {
-            // Arrange
-            var civList = fakeData.GetCivilizations(10);
-            var dlcSortedList = fakeData.GetDlc();
-            dlcSortedList.Remove("");
+            FakeData fakeData = new FakeData();
 
-            // Act
-            var viewModel = new ViewModel(civList, dlcSortedList);
-
-            // Assert
-            Assert.Contains(viewModel.DlcCheckboxes, checkBox => checkBox.Dlc.Abbreviation == "");
-        }
-
-        [Theory]
-        [InlineData(true, 3, 3, 9)]
-        [InlineData(false, 3, 3, 3)]
-        [InlineData(false, 3, 1, 3)]
-        public void SelectedCivsCount_DuplicateCivsExist_ReturnIsBasedOnAllowDuplicateCivs(bool allowDuplicateCivs, int civsWithDuplicatesCount, int numberOfDuplicateInstances, int expectedResult)
-        {
-            // Arrange
-            string testName = "test";
-            var civList = new List<Civilization>();
-
-            for (int i = 0; i < civsWithDuplicatesCount; i++)
+            [Fact]
+            public void NoEmptyStringAsKeyInDlcSortedList_AddDlcCheckBoxWithEmptyAbbreviation()
             {
-                for (int j = 0; j < numberOfDuplicateInstances; j++)
+                // Arrange
+                var civList = fakeData.GetCivilizations(10);
+                var dlcSortedList = fakeData.GetDlc();
+                dlcSortedList.Remove("");
+
+                // Act
+                var viewModel = new ViewModel(civList, dlcSortedList);
+
+                // Assert
+                Assert.Contains(viewModel.DlcCheckboxes, checkBox => checkBox.Dlc.Abbreviation == "");
+            }
+            [Fact]
+            public void CivHasDlcNotInDlcJson_CivButtonIsCreated()
+            {
+                // Arrange
+                Dlc existingDlc = new Dlc { Fullname = "Test", Abbreviation = "T" };
+                SortedList<string, Dlc> dlcList = new SortedList<string, Dlc> { { existingDlc.Abbreviation, existingDlc } };
+
+                Civilization civToTest = new Civilization
                 {
-                    var civ = new Civilization() { Name = testName + i, Leader = "", Dlc = "" };
-                    civList.Add(civ);
+                    Dlc = "NotInDlcList",
+                };
+                Civilization civBaseline = new Civilization
+                {
+                    Dlc = existingDlc.Abbreviation,
+                };
+                List<Civilization> civList = new List<Civilization> { civToTest, civBaseline };
+
+                // Act
+                var viewModel = new ViewModel(civList, dlcList);
+
+                // Assert
+                Assert.True(viewModel.CivButtonList.Count == civList.Count);
+            }
+            [Fact]
+            public void ImageNotFound_BitmapImageInCivButtonIsNull()
+            {
+                // Arrange
+                List<Civilization> civList = new List<Civilization>
+            {
+                new Civilization{ Image = "image does not exist"}
+            };
+
+                // Act
+                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+
+                // Assert
+                Assert.True(viewModel.CivButtonList[0].BitmapImage is null);
+            }
+        }
+        
+        public class SelectedCivsCount
+        {
+            FakeData fakeData = new FakeData();
+
+            [Theory]
+            [InlineData(true, 3, 3, 9)]
+            [InlineData(false, 3, 3, 3)]
+            [InlineData(false, 3, 1, 3)]
+            public void DuplicateCivsExist_ReturnIsBasedOnAllowDuplicateCivs(bool allowDuplicateCivs, int civsWithDuplicatesCount, int numberOfDuplicateInstances, int expectedResult)
+            {
+                // Arrange
+                string testName = "test";
+                var civList = new List<Civilization>();
+
+                for (int i = 0; i < civsWithDuplicatesCount; i++)
+                {
+                    for (int j = 0; j < numberOfDuplicateInstances; j++)
+                    {
+                        var civ = new Civilization() { Name = testName + i, Leader = "", Dlc = "" };
+                        civList.Add(civ);
+                    }
                 }
+
+                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+                viewModel.AllowDuplicateLeaders = true;
+                viewModel.AllowDuplicateCivs = allowDuplicateCivs;
+
+                // Act
+                int actual = viewModel.SelectedCivsCount;
+
+                // Assert
+                Assert.Equal(expectedResult, actual);
             }
 
-            var viewModel = new ViewModel(civList, fakeData.GetDlc());
-            viewModel.AllowDuplicateLeaders = true;
-            viewModel.AllowDuplicateCivs = allowDuplicateCivs;
-
-            // Act
-            int actual = viewModel.SelectedCivsCount;
-
-            // Assert
-            Assert.Equal(expectedResult, actual);
-        }
-
-        [Theory]
-        [InlineData(true, 3, 3, 9)]
-        [InlineData(false, 3, 3, 3)]
-        [InlineData(false, 3, 1, 3)]
-        public void SelectedCivsCount_DuplicateLeadersExist_ReturnIsBasedOnAllowDuplicateLeaders(bool allowDuplicateLeaders, int civsWithDuplicatesCount, int numberOfDuplicateInstances, int expectedResult)
-        {
-            // Arrange
-            string testName = "test";
-            var civList = new List<Civilization>();
-
-            for (int i = 0; i < civsWithDuplicatesCount; i++)
+            [Theory]
+            [InlineData(true, 3, 3, 9)]
+            [InlineData(false, 3, 3, 3)]
+            [InlineData(false, 3, 1, 3)]
+            public void DuplicateLeadersExist_ReturnIsBasedOnAllowDuplicateLeaders(bool allowDuplicateLeaders, int civsWithDuplicatesCount, int numberOfDuplicateInstances, int expectedResult)
             {
-                for (int j = 0; j < numberOfDuplicateInstances; j++)
+                // Arrange
+                string testName = "test";
+                var civList = new List<Civilization>();
+
+                for (int i = 0; i < civsWithDuplicatesCount; i++)
                 {
-                    var civ = new Civilization() { Name = "", Leader = testName + i, Dlc = "" };
-                    civList.Add(civ);
+                    for (int j = 0; j < numberOfDuplicateInstances; j++)
+                    {
+                        var civ = new Civilization() { Name = "", Leader = testName + i, Dlc = "" };
+                        civList.Add(civ);
+                    }
                 }
+
+                var viewModel = new ViewModel(civList, fakeData.GetDlc());
+                viewModel.AllowDuplicateLeaders = allowDuplicateLeaders;
+                viewModel.AllowDuplicateCivs = true;
+
+                // Act
+                int actual = viewModel.SelectedCivsCount;
+
+                // Assert
+                Assert.Equal(expectedResult, actual);
             }
-
-            var viewModel = new ViewModel(civList, fakeData.GetDlc());
-            viewModel.AllowDuplicateLeaders = allowDuplicateLeaders;
-            viewModel.AllowDuplicateCivs = true;
-
-            // Act
-            int actual = viewModel.SelectedCivsCount;
-
-            // Assert
-            Assert.Equal(expectedResult, actual);
         }
+
+        
+
+        
     }
 }

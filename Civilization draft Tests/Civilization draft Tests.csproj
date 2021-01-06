@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Civilization_draft_Tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
@@ -22,6 +22,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Civilization draft\Civilization draft.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
   </ItemGroup>
 
 </Project>

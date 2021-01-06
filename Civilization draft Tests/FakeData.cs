@@ -62,7 +62,7 @@ namespace Civilization_draft_Tests
                     Name = "civ" + (i + 1),
                     Leader = "leader" + (i + 1),
                     Dlc = dlcString,
-                    Image = "fakeImage.png",
+                    Image = "America.png",
                 };
                 civList.Add(civ);
             }

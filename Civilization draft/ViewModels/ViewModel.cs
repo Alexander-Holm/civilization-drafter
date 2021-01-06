@@ -12,7 +12,6 @@ using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -21,11 +20,11 @@ namespace Civilization_draft.ViewModels
     public class ViewModel : NotifyPropertyChangedBase
     {
         #region Constructor
-        // civList and dlcSortedList as parameters for better testing 
+        // civList and dlcSortedList as parameters for testing without reading Json
         public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
         {
             // Create a dlc so that a checkbox can be made for basegame civs
-            // Ignored such Dlc already exists
+            // Ignored if such Dlc already exists
             if (!dlcSortedList.ContainsKey(""))
             {
                 Dlc noDlc = new Dlc { Abbreviation = "", Fullname = "Base game", HasCheckbox = true };
@@ -160,18 +159,24 @@ namespace Civilization_draft.ViewModels
         {
             List<CivButton> outputList = new List<CivButton>();
             foreach (var civ in civList)
-            {
+            {                       
                 Dlc dlc;
-                if (dlcList.TryGetValue(civ.Dlc, out dlc))
-                {
-                    Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "Images/" + civ.Image);
-                    BitmapImage image = new BitmapImage(imageUri);
+                // string is a reference type and can be null
+                // If null set civ.Dlc to ""
+                // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator
+                if (!dlcList.TryGetValue(civ.Dlc ?? "", out dlc))
+                    dlc = new Dlc { Abbreviation = civ.Dlc };
 
-                    var civButton = new CivButton(civ, dlc);
-                    civButton.BitmapImage = image;
-                    civButton.OnIsCheckedChanged += NotifyCivRatioChanged;
-                    outputList.Add(civButton);
-                }
+                Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Images/" + civ.Image);
+                BitmapImage image;
+                try { image = new BitmapImage(imageUri); }
+                catch (FileNotFoundException){ image = null; }
+                catch (DirectoryNotFoundException) { image = null; }
+
+                var civButton = new CivButton(civ, dlc);
+                civButton.BitmapImage = image;
+                civButton.OnIsCheckedChanged += NotifyCivRatioChanged;
+                outputList.Add(civButton);
             }
             return outputList;
         }
