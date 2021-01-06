@@ -40,13 +40,14 @@ namespace Civilization_draft.ViewModels
             BackCommand = new RelayCommand(o => CurrentView = 1);
             CopyResultAsTextCommand = new RelayCommand(o => DataAccess.ClipBoard.CopyResultAsText(Result));
             CopyUiElementAsImageCommand = new RelayCommand(param => DataAccess.ClipBoard.CopyUiElementAsImage(param as UIElement));
+            SaveConfigCommand = new RelayCommand(o => SaveConfig());
 
             CivsPerPlayer = new AmountSetting(Enumerable.Range(1, 10).ToArray(), 3);
             NumberOfPlayers = new AmountSetting(Enumerable.Range(1, 12).ToArray(), 1);
             CivsPerPlayer.OnSelectedChanged += NotifyCivRatioChanged;
             NumberOfPlayers.OnSelectedChanged += NotifyCivRatioChanged;
 
-            // Create checkboxes for dlc where HasCheckbox == true
+            // Create checkboxes only for dlc where HasCheckbox == true
             DlcCheckboxes = new List<DlcCheckbox>();
             foreach (var dlc in dlcSortedList.Values)
             {
@@ -135,6 +136,7 @@ namespace Civilization_draft.ViewModels
         public ICommand BackCommand { get; private set; }
         public ICommand CopyResultAsTextCommand { get; private set; }
         public ICommand CopyUiElementAsImageCommand { get; private set; }
+        public ICommand SaveConfigCommand { get; private set; }
         #endregion
 
         #region Command methods
@@ -159,6 +161,23 @@ namespace Civilization_draft.ViewModels
             }
 
             CurrentView = 2;
+        }
+
+        private void SaveConfig()
+        {
+            Config config = new Config
+            {
+                CivButtonList = CivButtonList.Where(civButton => civButton.IsChecked == false).Select(civbutton => new CivSimple
+                {
+                    Civ = civbutton.Civ.Name,
+                    Leader = civbutton.Civ.Leader,
+                }).ToList(),
+                AllowDuplicateCivs = AllowDuplicateCivs,
+                AllowDuplicateLeaders = AllowDuplicateLeaders,
+                SelectedCivsPerPlayer = CivsPerPlayer.Selected,
+                SelectedNumberOfPlayers = NumberOfPlayers.Selected
+            };
+            DataAccess.Json.SaveConfig(config);
         }
         #endregion
 

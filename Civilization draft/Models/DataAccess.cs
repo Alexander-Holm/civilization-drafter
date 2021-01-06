@@ -48,6 +48,17 @@ namespace Civilization_draft.Models
 
                 return civList.OrderBy(c => c.Name).ToList();
             }
+
+            public static void SaveConfig(Config config)
+            {
+                var json = new JavaScriptSerializer().Serialize(config);
+
+                StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "SavedConfig.json", false);
+                using (writer)
+                {
+                    writer.Write(json);
+                }
+            }
         }
 
         public static class ClipBoard
@@ -57,7 +68,7 @@ namespace Civilization_draft.Models
                 var formattedResult = result.Select(playerResult => new ClipboardPlayerResult
                 {
                     Player = playerResult.PlayerNumber,
-                    Civilizations = playerResult.Civs.Select(civButton => new SimpleCiv
+                    Civilizations = playerResult.Civs.Select(civButton => new CivSimple
                     {
                         Civ = civButton.Civ.Name,
                         Leader = civButton.Civ.Leader

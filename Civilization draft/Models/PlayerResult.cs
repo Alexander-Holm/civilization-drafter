@@ -14,12 +14,6 @@ namespace Civilization_draft.Models
     class ClipboardPlayerResult
     {
         public int Player { get; set; }
-        public List<SimpleCiv> Civilizations { get; set; }
-    }
-
-    class SimpleCiv
-    {
-        public string Civ { get; set; }
-        public string Leader { get; set; }
+        public List<CivSimple> Civilizations { get; set; }
     }
 }

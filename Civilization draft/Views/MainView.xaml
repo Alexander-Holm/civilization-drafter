@@ -177,6 +177,9 @@
                                 </Style>
                             </Button.Style>
                         </Button>
+
+                        <Button Content="config"
+                                Command="{Binding SaveConfigCommand}"/>
                     </StackPanel>
                 </Border>
                 

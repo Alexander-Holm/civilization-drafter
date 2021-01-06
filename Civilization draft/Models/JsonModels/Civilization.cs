@@ -14,15 +14,6 @@ namespace Civilization_draft.Models.JsonModels
         public string Name { get; set; }
         public string Leader { get; set; }
         public string Dlc { get; set; }
-        //private string _image;
-        //public string Image
-        //{
-        //    get
-        //    {
-        //        return "/Civilization draft;component/Images/Civs/" + _image;
-        //    }
-        //    set { _image = value; }
-        //}
         public string Image { get; set; }
     }
 }

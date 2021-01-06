@@ -76,12 +76,14 @@
     <Compile Include="används inte för att köra\SkapaGrejjs.cs" />
     <Compile Include="Models\AmountSetting.cs" />
     <Compile Include="Models\CivButton.cs" />
+    <Compile Include="Models\CivSimple.cs" />
     <Compile Include="Models\DataAccess.cs" />
     <Compile Include="Models\DlcCheckBox.cs" />
     <Compile Include="Models\JsonModels\Dlc.cs" />
     <Compile Include="Models\NotifyPropertyChangedBase.cs" />
     <Compile Include="Models\PlayerResult.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\Config.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
