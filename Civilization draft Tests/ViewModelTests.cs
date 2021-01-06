@@ -140,9 +140,5 @@ namespace Civilization_draft_Tests
                 Assert.Equal(expectedResult, actual);
             }
         }
-
-        
-
-        
     }
 }

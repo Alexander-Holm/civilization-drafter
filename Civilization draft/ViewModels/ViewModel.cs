@@ -167,6 +167,8 @@ namespace Civilization_draft.ViewModels
                 if (!dlcList.TryGetValue(civ.Dlc ?? "", out dlc))
                     dlc = new Dlc { Abbreviation = civ.Dlc };
 
+                // /Images/ instead of Images/
+                // AppDomain.CurrentDomain.BaseDirectory does not end with / in testproject
                 Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Images/" + civ.Image);
                 BitmapImage image;
                 try { image = new BitmapImage(imageUri); }
