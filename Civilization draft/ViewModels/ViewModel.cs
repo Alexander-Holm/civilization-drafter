@@ -36,7 +36,7 @@ namespace Civilization_draft.ViewModels
             AllowDuplicateCivs = false;
             AllowDuplicateLeaders = false;
 
-            SubmitCommand = new RelayCommand(o => ClickSubmit(), o => EnoughCivs);
+            SubmitCommand = new RelayCommand(o => ClickDraft(), o => EnoughCivs);
             BackCommand = new RelayCommand(o => CurrentView = 1);
             CopyResultAsTextCommand = new RelayCommand(o => DataAccess.ClipBoard.CopyResultAsText(Result));
             CopyUiElementAsImageCommand = new RelayCommand(param => DataAccess.ClipBoard.CopyUiElementAsImage(param as UIElement));
@@ -64,7 +64,6 @@ namespace Civilization_draft.ViewModels
 
         #region Fields and properties
         public List<CivButton> CivButtonList { get; set; }
-        public List<CivButton> SelectedCivs { get; set; }
         public List<PlayerResult> Result { get; set; }
         public List<DlcCheckbox> DlcCheckboxes { get; set; }
         public AmountSetting CivsPerPlayer { get; set; }
@@ -139,17 +138,26 @@ namespace Civilization_draft.ViewModels
         #endregion
 
         #region Command methods
-        private void ClickSubmit()
+        private void ClickDraft()
         {
-            SelectedCivs = new List<CivButton>();
-            foreach (var civ in CivButtonList)
+            var selectedCivs = CivButtonList.Where(civButton => civButton.IsChecked == true).ToList();
+
+            Result = new List<PlayerResult>();
+            var rnd = new Random();
+            for (int i = 0; i < NumberOfPlayers.Selected; i++)
             {
-                if (civ.IsChecked == true)
+                var playerResult = new PlayerResult();
+                playerResult.PlayerNumber = i + 1;
+                for (int j = 0; j < CivsPerPlayer.Selected; j++)
                 {
-                    SelectedCivs.Add(civ);
+                    int randomIndex = rnd.Next(selectedCivs.Count());
+                    var civ = selectedCivs[randomIndex];
+                    playerResult.Civs.Add(civ);
+                    selectedCivs.RemoveAt(randomIndex);
                 }
+                Result.Add(playerResult);
             }
-            AssignCivsToPlayers();
+
             CurrentView = 2;
         }
         #endregion
@@ -168,7 +176,7 @@ namespace Civilization_draft.ViewModels
                     dlc = new Dlc { Abbreviation = civ.Dlc };
 
                 // /Images/ instead of Images/
-                // AppDomain.CurrentDomain.BaseDirectory does not end with / in testproject
+                // AppDomain.CurrentDomain.BaseDirectory does not end with / when run from testproject
                 Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Images/" + civ.Image);
                 BitmapImage image;
                 try { image = new BitmapImage(imageUri); }
@@ -182,24 +190,6 @@ namespace Civilization_draft.ViewModels
             }
             return outputList;
         }
-        private void AssignCivsToPlayers()
-        {
-            Result = new List<PlayerResult>();
-            var rnd = new Random();
-            for (int i = 0; i < NumberOfPlayers.Selected; i++)
-            {
-                var player = new PlayerResult();
-                player.PlayerNumber = i + 1;
-                for (int j = 0; j < CivsPerPlayer.Selected; j++)
-                {
-                    int randomIndex = rnd.Next(SelectedCivs.Count());
-                    var civ = SelectedCivs[randomIndex];
-                    player.Civs.Add(civ);
-                    SelectedCivs.RemoveAt(randomIndex);
-                }
-                Result.Add(player);
-            }
-        }        
 
         private void NotifyCivRatioChanged()
         {
