@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Civilization_draft.Models
 {
-    class Config
+    public class Config
     {
-        public List<CivSimple> CivButtonList { get; set; }
+        public List<CivSimple> UncheckedCivs { get; set; }
         public int SelectedCivsPerPlayer { get; set; }
         public int SelectedNumberOfPlayers { get; set; }
         public bool AllowDuplicateCivs { get; set; }

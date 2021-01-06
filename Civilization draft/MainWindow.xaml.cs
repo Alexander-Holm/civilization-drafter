@@ -1,4 +1,5 @@
 ﻿using Civilization_draft.Models;
+using Civilization_draft.Models.JsonModels;
 using Civilization_draft.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -27,10 +28,24 @@ namespace Civilization_draft
         public MainWindow()
         {
             InitializeComponent();
-            var civList = DataAccess.Json.LoadCivilizations();
-            var dlcSortedList = DataAccess.Json.LoadDlc();
-            var vm = new ViewModel(civList, dlcSortedList);
-            this.DataContext = vm;
+            try
+            {
+                var civList = DataAccess.Json.LoadCivilizations();
+                var dlcSortedList = DataAccess.Json.LoadDlc();
+                var config = DataAccess.Json.LoadConfig(); // Will be null if config is not found
+                var vm = new ViewModel(civList, dlcSortedList, config);
+                this.DataContext = vm;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Could not find Civilizations.json or Dlc.json in folder CivData", "Civilization drafter", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Civilization drafter", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
         }
     }        
 }

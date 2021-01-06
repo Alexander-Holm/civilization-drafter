@@ -21,7 +21,7 @@ namespace Civilization_draft.ViewModels
     {
         #region Constructor
         // civList and dlcSortedList as parameters for testing without reading Json
-        public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList)
+        public ViewModel(List<Civilization> civList, SortedList<string, Dlc> dlcSortedList, Config config)
         {
             // Create a dlc so that a checkbox can be made for basegame civs
             // Ignored if such Dlc already exists
@@ -31,7 +31,7 @@ namespace Civilization_draft.ViewModels
                 dlcSortedList.Add(noDlc.Abbreviation, noDlc);
             }
 
-            CivButtonList = CreateCivButtons(civList, dlcSortedList);
+            CivButtonList = CreateCivButtons(civList, dlcSortedList);            
 
             AllowDuplicateCivs = false;
             AllowDuplicateLeaders = false;
@@ -57,6 +57,30 @@ namespace Civilization_draft.ViewModels
                     var civButtonsOfDlc = CivButtonList.Where(cb => cb.Dlc.Abbreviation == dlc.Abbreviation).ToList();
                     DlcCheckboxes.Add(new DlcCheckbox(dlc, civButtonsOfDlc));
                 }
+            }
+
+            if(config is object)
+            {
+                if (config.UncheckedCivs is object)
+                {
+                    var uncheckedCivs = CivButtonList
+                    .Where(civButton => config.UncheckedCivs
+                    .Any(civ =>
+                        civ.Civ == civButton.Civ.Name
+                        &&
+                        civ.Leader == civButton.Civ.Leader))
+                    .ToList();
+                    uncheckedCivs.ForEach(civButton => civButton.IsChecked = false);
+                }
+
+                AllowDuplicateCivs = config.AllowDuplicateCivs;
+                AllowDuplicateLeaders = config.AllowDuplicateLeaders;
+
+                if (CivsPerPlayer.Values.Length >= config.SelectedCivsPerPlayer && config.SelectedCivsPerPlayer > 0 )
+                    CivsPerPlayer.Selected = config.SelectedCivsPerPlayer;
+
+                if (NumberOfPlayers.Values.Length >= config.SelectedNumberOfPlayers && config.SelectedNumberOfPlayers > 0)
+                    NumberOfPlayers.Selected = config.SelectedNumberOfPlayers;
             }
 
             _currentView = 1;
@@ -167,7 +191,7 @@ namespace Civilization_draft.ViewModels
         {
             Config config = new Config
             {
-                CivButtonList = CivButtonList.Where(civButton => civButton.IsChecked == false).Select(civbutton => new CivSimple
+                UncheckedCivs = CivButtonList.Where(civButton => civButton.IsChecked == false).Select(civbutton => new CivSimple
                 {
                     Civ = civbutton.Civ.Name,
                     Leader = civbutton.Civ.Leader,

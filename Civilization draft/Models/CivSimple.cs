@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Civilization_draft.Models
 {
-    class CivSimple
+    public class CivSimple
     {
         public string Civ { get; set; }
         public string Leader { get; set; }

@@ -18,6 +18,7 @@ namespace Civilization_draft.Models
         public static class Json
         {
             private static readonly string path = AppDomain.CurrentDomain.BaseDirectory + "CivData/";
+            private static readonly string configFilepath = AppDomain.CurrentDomain.BaseDirectory + "SavedConfig.json";
 
             public static SortedList<string, Dlc> LoadDlc()
             {
@@ -53,10 +54,21 @@ namespace Civilization_draft.Models
             {
                 var json = new JavaScriptSerializer().Serialize(config);
 
-                StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "SavedConfig.json", false);
+                StreamWriter writer = new StreamWriter(configFilepath, false);
                 using (writer)
                 {
                     writer.Write(json);
+                }
+            }
+            public static Config LoadConfig()
+            {
+                if (!File.Exists(configFilepath))
+                    return null;
+
+                using (StreamReader r = new StreamReader(configFilepath))
+                {
+                    string jsonString = r.ReadToEnd();
+                    return new JavaScriptSerializer().Deserialize<Config>(jsonString);
                 }
             }
         }
