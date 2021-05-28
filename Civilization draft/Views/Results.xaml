@@ -16,7 +16,8 @@
     </UserControl.Resources>
 
     <UserControl.Background>
-        <ImageBrush ImageSource="/Resources/Background.png" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="/Resources/Background.jpg" 
+                    Stretch="UniformToFill"/>
     </UserControl.Background>
 
     <DockPanel>

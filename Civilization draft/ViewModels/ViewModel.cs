@@ -31,21 +31,51 @@ namespace Civilization_draft.ViewModels
                 dlcSortedList.Add(noDlc.Abbreviation, noDlc);
             }
 
-            CivButtonList = CreateCivButtons(civList, dlcSortedList);            
+            CivButtonList = CreateCivButtons(civList, dlcSortedList);
 
-            AllowDuplicateCivs = false;
-            AllowDuplicateLeaders = false;
+            // Always creating defaultConfig because some default values may be used even if a config is passed in. 
+            Config defaultConfig = Config.GetDefaultConfig();
+            if (config is null)
+                config = defaultConfig;
 
-            SubmitCommand = new RelayCommand(o => ClickDraft(), o => EnoughCivs);
+            if (config.UncheckedCivs is object)
+            {
+                var uncheckedCivs = CivButtonList
+                .Where(civButton => config.UncheckedCivs
+                .Any(civ =>
+                    civ.Civ == civButton.Civ.Name
+                    &&
+                    civ.Leader == civButton.Civ.Leader))
+                .ToList();
+                uncheckedCivs.ForEach(civButton => civButton.IsChecked = false);
+            }
+
+            AllowDuplicateCivs = config.AllowDuplicateCivs;
+            AllowDuplicateLeaders = config.AllowDuplicateLeaders;
+
+            int[] amountSettingValues;
+            int preselectedValue;            
+
+            amountSettingValues = Enumerable.Range(1, 10).ToArray();
+            if (amountSettingValues.Contains(config.SelectedCivsPerPlayer))
+                preselectedValue = config.SelectedCivsPerPlayer;
+            else preselectedValue = defaultConfig.SelectedCivsPerPlayer;
+            CivsPerPlayer = new AmountSetting(amountSettingValues, preselectedValue);
+            CivsPerPlayer.OnSelectedChanged += NotifyCivRatioChanged;
+
+            amountSettingValues = Enumerable.Range(1, 12).ToArray();
+            if (amountSettingValues.Contains(config.SelectedNumberOfPlayers))
+                preselectedValue = config.SelectedNumberOfPlayers;
+            else preselectedValue = defaultConfig.SelectedNumberOfPlayers;
+            NumberOfPlayers = new AmountSetting(amountSettingValues, preselectedValue);
+            NumberOfPlayers.OnSelectedChanged += NotifyCivRatioChanged;
+
+            // Not using canExecute, doing it manually for better control over xaml styling
+            SubmitCommand = new RelayCommand(o => ClickDraft());
             BackCommand = new RelayCommand(o => CurrentView = 1);
             CopyResultAsTextCommand = new RelayCommand(o => DataAccess.ClipBoard.CopyResultAsText(Result));
             CopyUiElementAsImageCommand = new RelayCommand(param => DataAccess.ClipBoard.CopyUiElementAsImage(param as UIElement));
             SaveConfigCommand = new RelayCommand(o => SaveConfig());
-
-            CivsPerPlayer = new AmountSetting(Enumerable.Range(1, 10).ToArray(), 3);
-            NumberOfPlayers = new AmountSetting(Enumerable.Range(1, 12).ToArray(), 1);
-            CivsPerPlayer.OnSelectedChanged += NotifyCivRatioChanged;
-            NumberOfPlayers.OnSelectedChanged += NotifyCivRatioChanged;
 
             // Create checkboxes only for dlc where HasCheckbox == true
             DlcCheckboxes = new List<DlcCheckbox>();
@@ -57,30 +87,6 @@ namespace Civilization_draft.ViewModels
                     var civButtonsOfDlc = CivButtonList.Where(cb => cb.Dlc.Abbreviation == dlc.Abbreviation).ToList();
                     DlcCheckboxes.Add(new DlcCheckbox(dlc, civButtonsOfDlc));
                 }
-            }
-
-            if(config is object)
-            {
-                if (config.UncheckedCivs is object)
-                {
-                    var uncheckedCivs = CivButtonList
-                    .Where(civButton => config.UncheckedCivs
-                    .Any(civ =>
-                        civ.Civ == civButton.Civ.Name
-                        &&
-                        civ.Leader == civButton.Civ.Leader))
-                    .ToList();
-                    uncheckedCivs.ForEach(civButton => civButton.IsChecked = false);
-                }
-
-                AllowDuplicateCivs = config.AllowDuplicateCivs;
-                AllowDuplicateLeaders = config.AllowDuplicateLeaders;
-
-                if (CivsPerPlayer.Values.Length >= config.SelectedCivsPerPlayer && config.SelectedCivsPerPlayer > 0 )
-                    CivsPerPlayer.Selected = config.SelectedCivsPerPlayer;
-
-                if (NumberOfPlayers.Values.Length >= config.SelectedNumberOfPlayers && config.SelectedNumberOfPlayers > 0)
-                    NumberOfPlayers.Selected = config.SelectedNumberOfPlayers;
             }
 
             _currentView = 1;
@@ -166,6 +172,9 @@ namespace Civilization_draft.ViewModels
         #region Command methods
         private void ClickDraft()
         {
+            if (EnoughCivs == false)
+                return;
+
             var selectedCivs = CivButtonList.Where(civButton => civButton.IsChecked == true).ToList();
 
             Result = new List<PlayerResult>();
@@ -210,7 +219,7 @@ namespace Civilization_draft.ViewModels
         {
             List<CivButton> outputList = new List<CivButton>();
             foreach (var civ in civList)
-            {                       
+            {
                 Dlc dlc;
                 // string is a reference type and can be null
                 // If null set civ.Dlc to ""
@@ -223,7 +232,7 @@ namespace Civilization_draft.ViewModels
                 Uri imageUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Images/" + civ.Image);
                 BitmapImage image;
                 try { image = new BitmapImage(imageUri); }
-                catch (FileNotFoundException){ image = null; }
+                catch (FileNotFoundException) { image = null; }
                 catch (DirectoryNotFoundException) { image = null; }
 
                 var civButton = new CivButton(civ, dlc);

@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../Resources/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="DraftButton" TargetType="Button">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding EnoughCivs}" Value="false">
+                <Setter Property="IsHitTestVisible" Value="False" />
+                <Setter Property="Opacity" Value="0.8"/>
+                <Setter Property="Background" Value="DarkGray" />
+                <Setter Property="BorderBrush" Value="Gray" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Green"/>
+                <Setter Property="BorderBrush" Value="LightGreen"/>
+            </Trigger>
+        </Style.Triggers>
+
+        <Setter Property="Background" Value="ForestGreen"/>
+        <Setter Property="BorderBrush" Value="LimeGreen" />
+        <Setter Property="Foreground" Value="White" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="1"
+                            Padding="20,10">
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Draft" 
+                                       VerticalAlignment="Center" Padding="0,0,10,0"
+                                       FontSize="18" FontWeight="Bold" />
+                            <Image Source="{StaticResource ChevronRight}" Height="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

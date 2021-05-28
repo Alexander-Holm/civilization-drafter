@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Civilization_draft">
-
-    
+                    xmlns:local="clr-namespace:Civilization_draft">    
 
     <Style x:Key="CivButton" TargetType="{x:Type CheckBox}">
         <Style.Resources>
@@ -38,7 +36,7 @@
                             CornerRadius="8"
                             Margin="4,2">
                         <Border.Background>
-                            <SolidColorBrush Color="AliceBlue" Opacity="0.7"/>
+                            <SolidColorBrush Color="AliceBlue" Opacity="0.8"/>
                         </Border.Background>
                         <DockPanel Width="155">
 
@@ -54,7 +52,7 @@
                             <StackPanel>
                                 <!--Using Dockpanel because Stackpanel doesn't fill width-->
                                 <DockPanel>
-                                    <TextBlock Text="{Binding Civ.Name}"                                               
+                                    <TextBlock Text="{Binding Civ.Name}" Foreground="Black"                                               
                                                FontSize="16" FontWeight="Bold"
                                                TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Style="{StaticResource Dlc}"
@@ -64,7 +62,7 @@
                                                HorizontalAlignment="Right"
                                                />
                                 </DockPanel>
-                                <TextBlock Text="{Binding Civ.Leader}" 
+                                <TextBlock Text="{Binding Civ.Leader}" Foreground="Black"
                                            FontSize="14" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </DockPanel>

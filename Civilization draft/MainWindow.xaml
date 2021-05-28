@@ -7,13 +7,13 @@
         xmlns:ViewModels="clr-namespace:Civilization_draft.ViewModels"
         xmlns:Views="clr-namespace:Civilization_draft.Views"
         mc:Ignorable="d"
-        Title="Civilization drafter"
+        Title="Civilization Drafter"
         Width="1280" Height="720" ResizeMode="CanResize"
         MinWidth="550" MinHeight="300">
 
     <Window.Resources>
-        <DataTemplate x:Key="MainView">
-            <Views:MainView/>
+        <DataTemplate x:Key="DraftView">
+            <Views:DraftView/>
         </DataTemplate>
         <DataTemplate x:Key="Results">
             <Views:Results/>
@@ -25,7 +25,7 @@
             <Style TargetType="ContentControl">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding CurrentView}" Value="1">
-                        <Setter Property="ContentTemplate" Value="{StaticResource ResourceKey=MainView}"/>
+                        <Setter Property="ContentTemplate" Value="{StaticResource ResourceKey=DraftView}"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding CurrentView}" Value="2">
                         <Setter Property="ContentTemplate" Value="{StaticResource ResourceKey=Results}"/>
