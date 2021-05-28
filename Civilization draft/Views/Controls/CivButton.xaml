@@ -18,42 +18,73 @@
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Dlc.Abbreviation}"  Value="GS">
                         <Setter Property="FontFamily" Value="Comic Sans MS"/>
-                    </DataTrigger>
+                    </DataTrigger>                    
                 </Style.Triggers>
             </Style>            
         </Style.Resources>
-        
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="False">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="LightGray" Opacity="0.6"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="true"/>
+                    <Condition Property="IsChecked" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="GhostWhite" Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Cyan"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="true"/>
+                    <Condition Property="IsChecked" Value="true"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="GhostWhite" Opacity="0.9" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Cyan"/>
+            </MultiTrigger>
+        </Style.Triggers>
+
+        <Setter Property="Background" >
+            <Setter.Value>
+                <SolidColorBrush Color="WhiteSmoke" Opacity="0.8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
 
                     <!--Determines the overall look of the button-->
-                    <Border x:Name="WholeButton"
-                            Padding="6"
-                            BorderThickness="1.5" 
-                            BorderBrush="Black"
-                            CornerRadius="8"
-                            Margin="4,2">
-                        <Border.Background>
-                            <SolidColorBrush Color="AliceBlue" Opacity="0.8"/>
-                        </Border.Background>
-                        <DockPanel Width="155">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.5" CornerRadius="4"
+                            Margin="4,2" Padding="6">
 
-                            <!--Content of the button-->
-                            <Border BorderThickness="2"
-                                    CornerRadius="2"
-                                    BorderBrush="Black" 
-                                    Margin="0,0,6,0"
-                                    Width="30"
+                        <!--Content of the button-->
+                        <DockPanel Width="155">
+                            <Border BorderBrush="Black" BorderThickness="2" CornerRadius="2" 
+                                    Width="30" Margin="0,0,6,0"
                                     HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Image Source="{Binding BitmapImage}"/>
                             </Border>
                             <StackPanel>
                                 <!--Using Dockpanel because Stackpanel doesn't fill width-->
                                 <DockPanel>
-                                    <TextBlock Text="{Binding Civ.Name}" Foreground="Black"                                               
-                                               FontSize="16" FontWeight="Bold"
+                                    <TextBlock Text="{Binding Civ.Name}" ToolTip="{Binding Civ.Name}"
+                                               Foreground="Black" FontSize="16" FontWeight="Bold"
                                                TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Style="{StaticResource Dlc}"
                                                Text="{Binding Dlc.Abbreviation}" 
@@ -62,22 +93,12 @@
                                                HorizontalAlignment="Right"
                                                />
                                 </DockPanel>
-                                <TextBlock Text="{Binding Civ.Leader}" Foreground="Black"
-                                           FontSize="14" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Civ.Leader}" ToolTip="{Binding Civ.Leader}"
+                                           Foreground="Black" FontSize="14" 
+                                           TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </DockPanel>
-                    </Border>                    
-                    
-                    <ControlTemplate.Triggers>
-                        <!--When the button is unchecked-->
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="WholeButton" Property="Border.Background">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="Gray" Opacity="0.4"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
