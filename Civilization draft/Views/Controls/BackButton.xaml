@@ -5,23 +5,17 @@
         <ResourceDictionary Source="../../Resources/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="DraftButton" TargetType="Button">
+    <Style x:Key="BackButton" TargetType="Button">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding EnoughCivs}" Value="false">
-                <Setter Property="IsHitTestVisible" Value="False" />
-                <Setter Property="Opacity" Value="0.8"/>
-                <Setter Property="Background" Value="DarkGray" />
-                <Setter Property="BorderBrush" Value="Gray" />
-            </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="Green"/>
                 <Setter Property="BorderBrush" Value="LightGreen"/>
             </Trigger>
         </Style.Triggers>
 
-        <Setter Property="Background" Value="ForestGreen"/>
+        <Setter Property="Background" Value="LightGoldenrodYellow"/>
         <Setter Property="BorderBrush" Value="LimeGreen" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="Black" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -30,13 +24,13 @@
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="1"
                             Padding="20,10">
                         <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="Draft" 
-                                       VerticalAlignment="Center" Padding="0,0,10,0"
-                                       FontSize="18" FontWeight="Bold" />
                             <Viewbox Height="20">
-                                <Path Data="{StaticResource ChevronRight}" 
-                                      Fill="{TemplateBinding Foreground}" Stretch="Uniform" />                                
-                            </Viewbox>   
+                                <Path Data="{StaticResource ChevronLeft}" 
+                                      Fill="{TemplateBinding Foreground}" Stretch="Uniform"/>
+                            </Viewbox>  
+                            <TextBlock Text="Back" 
+                                       VerticalAlignment="Center" Padding="10,0,0,0"
+                                       FontSize="18" FontWeight="Bold" />
                         </StackPanel>
                     </Border>
                 </ControlTemplate>

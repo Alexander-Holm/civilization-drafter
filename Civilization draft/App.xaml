@@ -4,38 +4,7 @@
              xmlns:local="clr-namespace:Civilization_draft" 
              Startup="Application_Startup"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>        
-        <Style x:Key="HeaderStyle" TargetType="Border">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="MidnightBlue" Opacity="0.5"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
-            <Setter Property="BorderThickness" Value="0,0,0,3"/>
-            <Setter Property="MinHeight" Value="0"/>
-        </Style>
-        <Style x:Key="HeaderText" TargetType="Image">
-            <Setter Property="Source" Value="/Resources/Header_text.png"/>
-            <Setter Property="Width" Value="450"/>
-            <Setter Property="Margin" Value="5"/>
-        </Style>
-
-        <Style x:Key="Button" TargetType="Button">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush>
-                        <GradientStop Color="white" Offset="0.1"/>
-                        <GradientStop Color="Silver" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Style.Resources>
-        </Style>
+    <Application.Resources>
 
     </Application.Resources>
 </Application>
