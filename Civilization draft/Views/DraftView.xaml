@@ -69,136 +69,133 @@
                     Stretch="UniformToFill"/>
     </UserControl.Background>
 
-    <DockPanel>
-        <!--Content-->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" >
-            <DockPanel Margin="20, 40" VerticalAlignment="Center">
-                
-                <!--Settings-->
-                <Grid DockPanel.Dock="Right" VerticalAlignment="Top">
-                    <!-- DropShadowEffect aplies to children as well, -->
-                    <!-- to solve this shadow is only applied to an overlapping element -->
-                    <Border DockPanel.Dock="Right"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel Margin="20, 40" VerticalAlignment="Center" MaxWidth="1200">
+
+            <!--Settings-->
+            <Grid DockPanel.Dock="Right" VerticalAlignment="Top">
+                <!-- DropShadowEffect aplies to children as well, -->
+                <!-- to solve this shadow is only applied to an overlapping element -->
+                <Border DockPanel.Dock="Right"
                             BorderThickness="0" CornerRadius="5"
                             VerticalAlignment="Stretch">
-                        <Border.Background>
-                            <SolidColorBrush Color="Black" Opacity="0.5"/>
-                        </Border.Background>
-                        <Border.Effect>
-                            <DropShadowEffect Direction="230" ShadowDepth="5" BlurRadius="10"/>
-                        </Border.Effect>
-                    </Border>
+                    <Border.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.5"/>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect Direction="230" ShadowDepth="5" BlurRadius="10"/>
+                    </Border.Effect>
+                </Border>
 
-                    <!-- Settings content -->
-                    <StackPanel Margin="20">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label" BasedOn="{StaticResource SettingsLabel}"/>
-                            <Style TargetType="CheckBox" BasedOn="{StaticResource SettingsCheckBox}"/>
-                            <Style TargetType="Separator">
-                                <Setter Property="Background" Value="LightBlue"/>
-                                <Setter Property="Margin" Value="0,10" />
-                            </Style>
-                        </StackPanel.Resources>
+                <!-- Settings content -->
+                <StackPanel Margin="20">
+                    <StackPanel.Resources>
+                        <Style TargetType="Label" BasedOn="{StaticResource SettingsLabel}"/>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource SettingsCheckBox}"/>
+                        <Style TargetType="Separator">
+                            <Setter Property="Background" Value="LightBlue"/>
+                            <Setter Property="Margin" Value="0,10" />
+                        </Style>
+                    </StackPanel.Resources>
 
-                        <!--Buttons-->
-                        <StackPanel Orientation="Horizontal" Margin="10,5,0,20"
+                    <!--Buttons-->
+                    <StackPanel Orientation="Horizontal" Margin="10,5,0,20"
                                         HorizontalAlignment="Center" VerticalAlignment="Center" >
-                            <Button Style="{StaticResource DraftButton}" Command="{Binding SubmitCommand}" />
-                            <Button Style="{StaticResource SaveButton}" Command="{Binding SaveConfigCommand}" Margin="15,0,0,0"/>
-                        </StackPanel>
+                        <Button Style="{StaticResource DraftButton}" Command="{Binding SubmitCommand}" />
+                        <Button Style="{StaticResource SaveButton}" Command="{Binding SaveConfigCommand}" Margin="15,0,0,0"/>
+                    </StackPanel>
 
-                        <!--Selected / Minimum-->
-                        <StackPanel >
-                            <Label Style="{StaticResource SectionTitle}" Content="Selected / Minimum" />
-                            <TextBlock Style="{StaticResource CivRatio}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} / {1}">
-                                        <Binding Path="SelectedCivsCount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                        <Binding Path="MinimumCivs"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StackPanel>
-                        <Separator />
+                    <!--Selected / Minimum-->
+                    <StackPanel >
+                        <Label Style="{StaticResource SectionTitle}" Content="Selected / Minimum" />
+                        <TextBlock Style="{StaticResource CivRatio}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}">
+                                    <Binding Path="SelectedCivsCount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                    <Binding Path="MinimumCivs"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                    <Separator />
 
-                        <!--Dropdowns-->
-                        <StackPanel >
-                            <StackPanel>
-                                <Label Content="Number of players"/>
-                                <ComboBox x:Name="NumberOfPlayers" Style="{StaticResource Dropdown}"
+                    <!--Dropdowns-->
+                    <StackPanel >
+                        <StackPanel>
+                            <Label Content="Number of players"/>
+                            <ComboBox x:Name="NumberOfPlayers" Style="{StaticResource Dropdown}"
                                               DataContext="{Binding NumberOfPlayers}"
                                               ItemsSource="{Binding Values}"
                                               SelectedValue="{Binding Selected}"
                                               ScrollViewer.VerticalScrollBarVisibility="Visible">
-                                </ComboBox>
-                            </StackPanel>
-                            <!-- Margin-bottom looks better with the separator -->
-                            <StackPanel Margin="0,0,0,5">
-                                <Label Content="Civilizations per player"/>
-                                <ComboBox x:Name="CivsPerPLayer" Style="{StaticResource Dropdown}"
+                            </ComboBox>
+                        </StackPanel>
+                        <!-- Margin-bottom looks better with the separator -->
+                        <StackPanel Margin="0,0,0,5">
+                            <Label Content="Civilizations per player"/>
+                            <ComboBox x:Name="CivsPerPLayer" Style="{StaticResource Dropdown}"
                                               DataContext="{Binding CivsPerPlayer}"
                                               ItemsSource="{Binding Values}"
                                               SelectedValue="{Binding Selected}"
                                               ScrollViewer.VerticalScrollBarVisibility="Visible">
-                                </ComboBox>
-                            </StackPanel>
+                            </ComboBox>
                         </StackPanel>
-                        <Separator/>
-
-                        <!--Duplicates-->
-                        <Label Style="{StaticResource SectionTitle}" Content="Allow duplicates" />
-                        <StackPanel  HorizontalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding AllowDuplicateCivs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="Civilizations"
-                                           HorizontalAlignment="Center"/>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding AllowDuplicateLeaders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="Leaders"
-                                           HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <Separator />
-
-                        <!--DLC-->
-                        <Label Style="{StaticResource SectionTitle}" Content="Quick-toggle" />
-                        <ItemsControl ItemsSource="{Binding DlcCheckboxes}" HorizontalAlignment="Center">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <Label Content="{Binding Dlc.Fullname}" FontWeight="SemiBold"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
                     </StackPanel>
-                </Grid>
+                    <Separator/>
 
-                <!--List of all civilization-buttons-->
-                <StackPanel>
-                    <ItemsControl x:Name="ListviewCivilizations"
+                    <!--Duplicates-->
+                    <Label Style="{StaticResource SectionTitle}" Content="Allow duplicates" />
+                    <StackPanel  HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding AllowDuplicateCivs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Civilizations"
+                                           HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding AllowDuplicateLeaders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Leaders"
+                                           HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Separator />
+
+                    <!--DLC-->
+                    <Label Style="{StaticResource SectionTitle}" Content="Quick-toggle" />
+                    <ItemsControl ItemsSource="{Binding DlcCheckboxes}" HorizontalAlignment="Center">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding AllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Label Content="{Binding Dlc.Fullname}" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+            </Grid>
+
+            <!--List of all civilization-buttons-->
+            <StackPanel>
+                <ItemsControl x:Name="ListviewCivilizations"
                                   ItemsSource="{Binding CivButtonList}"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                   Background="Transparent"
                                   BorderThickness="0"
-                                  HorizontalAlignment="Center">                          
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Style="{StaticResource CivButton}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </DockPanel>
-        </ScrollViewer>
-    </DockPanel>
+                                  HorizontalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Style="{StaticResource CivButton}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DockPanel>
+    </ScrollViewer>
 </UserControl>
