@@ -71,7 +71,7 @@ namespace Civilization_draft.ViewModels
             NumberOfPlayers.OnSelectedChanged += NotifyCivRatioChanged;
 
             // Not using canExecute, doing it manually for better control over xaml styling
-            SubmitCommand = new RelayCommand(o => ClickDraft());
+            DraftCommand = new RelayCommand(o => Draft());
             BackCommand = new RelayCommand(o => CurrentView = 1);
             CopyResultAsTextCommand = new RelayCommand(o => DataAccess.ClipBoard.CopyResultAsText(Result));
             CopyUiElementAsImageCommand = new RelayCommand(param => DataAccess.ClipBoard.CopyUiElementAsImage(param as UIElement));
@@ -162,7 +162,7 @@ namespace Civilization_draft.ViewModels
                 return true;
             }
         }        
-        public ICommand SubmitCommand { get; private set; }
+        public ICommand DraftCommand { get; private set; }
         public ICommand BackCommand { get; private set; }
         public ICommand CopyResultAsTextCommand { get; private set; }
         public ICommand CopyUiElementAsImageCommand { get; private set; }
@@ -170,7 +170,7 @@ namespace Civilization_draft.ViewModels
         #endregion
 
         #region Command methods
-        private void ClickDraft()
+        private void Draft()
         {
             if (EnoughCivs == false)
                 return;
@@ -186,9 +186,13 @@ namespace Civilization_draft.ViewModels
                 for (int j = 0; j < CivsPerPlayer.Selected; j++)
                 {
                     int randomIndex = rnd.Next(selectedCivs.Count());
-                    var civ = selectedCivs[randomIndex];
-                    playerResult.Civs.Add(civ);
+                    var receivedCiv = selectedCivs[randomIndex];
+                    playerResult.Civs.Add(receivedCiv);
                     selectedCivs.RemoveAt(randomIndex);
+                    if(AllowDuplicateCivs == false)
+                        selectedCivs.RemoveAll(civ => civ.Civ.Name == receivedCiv.Civ.Name);
+                    if(AllowDuplicateLeaders == false)
+                        selectedCivs.RemoveAll(civ => civ.Civ.Leader == receivedCiv.Civ.Leader);
                 }
                 Result.Add(playerResult);
             }

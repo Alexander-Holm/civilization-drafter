@@ -99,7 +99,7 @@
                     <!--Buttons-->
                     <StackPanel Orientation="Horizontal" Margin="10,5,0,20"
                                         HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Button Style="{StaticResource DraftButton}" Command="{Binding SubmitCommand}" />
+                        <Button Style="{StaticResource DraftButton}" Command="{Binding DraftCommand}" />
                         <Button Style="{StaticResource IconButton}" Command="{Binding SaveConfigCommand}"
                                 ToolTip="Save the current settings and selection of civilizations as the default configuration"
                                 Margin="15,0,0,0" Height="35">
