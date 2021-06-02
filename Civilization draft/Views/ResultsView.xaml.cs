@@ -15,12 +15,9 @@ using System.Windows.Shapes;
 
 namespace Civilization_draft.Views
 {
-    /// <summary>
-    /// Interaction logic for Results.xaml
-    /// </summary>
-    public partial class Results : UserControl
+    public partial class ResultsView : UserControl
     {
-        public Results()
+        public ResultsView()
         {            
             InitializeComponent();
         }

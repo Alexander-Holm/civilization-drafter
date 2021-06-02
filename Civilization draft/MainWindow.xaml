@@ -16,7 +16,7 @@
             <Views:DraftView/>
         </DataTemplate>
         <DataTemplate x:Key="Results">
-            <Views:Results/>
+            <Views:ResultsView/>
         </DataTemplate>
     </Window.Resources>
 

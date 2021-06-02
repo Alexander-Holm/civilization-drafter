@@ -91,8 +91,8 @@
     <Compile Include="Views\DraftView.xaml.cs">
       <DependentUpon>DraftView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Results.xaml.cs">
-      <DependentUpon>Results.xaml</DependentUpon>
+    <Compile Include="Views\ResultsView.xaml.cs">
+      <DependentUpon>ResultsView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -131,7 +131,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Results.xaml">
+    <Page Include="Views\ResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

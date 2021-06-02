@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Civilization_draft.Views
 {
-    /// <summary>
-    /// Interaction logic for MainView.xaml
-    /// </summary>
     public partial class DraftView : UserControl
     {
         public DraftView()

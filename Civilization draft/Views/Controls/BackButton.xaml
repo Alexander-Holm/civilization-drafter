@@ -8,14 +8,14 @@
     <Style x:Key="BackButton" TargetType="Button">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Green"/>
-                <Setter Property="BorderBrush" Value="LightGreen"/>
+                <Setter Property="Background" Value="#0081c2"/>
+                <Setter Property="BorderBrush" Value="AliceBlue"/>
             </Trigger>
         </Style.Triggers>
 
-        <Setter Property="Background" Value="LightGoldenrodYellow"/>
-        <Setter Property="BorderBrush" Value="LimeGreen" />
-        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="#0090d9"/>
+        <Setter Property="BorderBrush" Value="LightBlue" />
+        <Setter Property="Foreground" Value="white" />
 
         <Setter Property="Template">
             <Setter.Value>

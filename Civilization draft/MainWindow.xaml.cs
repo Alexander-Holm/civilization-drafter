@@ -38,12 +38,12 @@ namespace Civilization_draft
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("Could not find Civilizations.json or Dlc.json in folder CivData", "Civilization drafter", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could not find either Civilizations.json or Dlc.json in folder CivData", "Civilization Drafter", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Civilization drafter", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, "Civilization Drafter", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
         }
