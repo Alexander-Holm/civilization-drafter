@@ -85,15 +85,13 @@
                                                Foreground="Black" FontSize="16" FontWeight="Bold"
                                                TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Style="{StaticResource Dlc}"
-                                               Text="{Binding Dlc.Abbreviation}" 
+                                               Text="{Binding Dlc.Abbreviation}" ToolTip="{Binding Dlc.Fullname}" ToolTipService.ShowOnDisabled="True"
                                                Foreground="{Binding Dlc.Color}"
-                                               VerticalAlignment="Top" 
-                                               HorizontalAlignment="Right"
-                                               />
+                                               VerticalAlignment="Top" HorizontalAlignment="Right" />
                                 </DockPanel>
                                 <TextBlock Text="{Binding Civ.Leader}" ToolTip="{Binding Civ.Leader}" ToolTipService.ShowOnDisabled="True"
                                            Foreground="Black" FontSize="14" 
-                                           TextTrimming="CharacterEllipsis" />
+                                           TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" />
                             </StackPanel>
                         </DockPanel>
                     </Border>

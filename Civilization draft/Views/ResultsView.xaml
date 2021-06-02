@@ -70,7 +70,7 @@
                                 <!-- Column 2 cannot have Width="auto", it breaks the WrapPanel !!! -->
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Border BorderBrush="DarkOrange" BorderThickness="5,0,0,0">
+                            <Border BorderBrush="DarkOrange" BorderThickness="6,0,0,0">
                                 <Border.Background>
                                     <SolidColorBrush Color="Black" Opacity="0.75" />
                                 </Border.Background>
@@ -89,10 +89,9 @@
                                     <SolidColorBrush Color="Black" Opacity="0.3" />
                                 </Border.Background>
                                 <ItemsControl  Grid.Column="1" Width="{Binding }"
-                                           ItemsSource="{Binding Civs}"
-                                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                           Padding="20,10"
-                                           Background="Transparent">
+                                               ItemsSource="{Binding Civs}"
+                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                               Padding="20,10">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Horizontal" />
