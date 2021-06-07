@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Civilization_draft.Views"
+             xmlns:local="clr-namespace:Civilization_draft.Views" xmlns:controls="clr-namespace:Civilization_draft.Views.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -40,16 +40,22 @@
             <StackPanel Orientation="Horizontal" Margin="30,20" HorizontalAlignment="Center">
                 <Button Style="{StaticResource BackButton}" Command="{Binding BackCommand}"/>
                 <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <Button Style="{StaticResource IconButton}" 
-                            Content="{StaticResource CopyText}" ToolTip="Copy result as text"
-                            Command="{Binding CopyResultAsTextCommand}"
-                            Height="35">
-                    </Button>
-                    <Button Style="{StaticResource IconButton}" 
-                            Content="{StaticResource CopyImage}" ToolTip="Copy results as an image"
-                            Command="{Binding CopyUiElementAsImageCommand}" CommandParameter="{Binding ElementName=resultContainer}"
-                            Height="35" Margin="10,0,0,0">
-                    </Button>                        
+                    <Grid>
+                        <Button Style="{StaticResource IconButton}" Click="Click_CopyAsText"
+                                Content="{StaticResource CopyText}" ToolTip="Copy result as text"
+                                Height="35">
+                        </Button>
+                        <controls:SuccessPopup x:Name="PopupCopyText" Text="Result copied as text"
+                                               IsOpen="False" Duration="2000" />
+                    </Grid>
+                    <Grid>
+                        <Button Style="{StaticResource IconButton}" Click="Click_CopyAsImage"
+                                Content="{StaticResource CopyImage}" ToolTip="Copy result as an image"
+                                Height="35" Margin="10,0,0,0">
+                        </Button>
+                        <controls:SuccessPopup x:Name="PopupCopyImage" Text="Result copied as an image"
+                                               IsOpen="False" Duration="2000" />
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -57,7 +63,7 @@
         <!--Content-->
         <ScrollViewer>
             <!--List of players-->
-            <ItemsControl x:Name="resultContainer" 
+            <ItemsControl x:Name="ResultContainer" 
                           ItemsSource="{Binding Result}"
                           Margin="50,100" MaxWidth="1200" 
                           VerticalAlignment="Top" HorizontalAlignment="Center">

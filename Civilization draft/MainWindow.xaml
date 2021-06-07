@@ -13,10 +13,10 @@
 
     <Window.Resources>
         <DataTemplate x:Key="DraftView">
-            <Views:DraftView/>
+            <Views:DraftView DataContext="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Key="Results">
-            <Views:ResultsView/>
+            <Views:ResultsView DataContext="{Binding}"/>
         </DataTemplate>
     </Window.Resources>
 

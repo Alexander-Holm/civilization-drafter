@@ -87,7 +87,11 @@
     <Compile Include="Models\PlayerResult.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\Config.cs" />
+    <Compile Include="ViewModels\ResultsViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\Controls\SuccessPopup.xaml.cs">
+      <DependentUpon>SuccessPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DraftView.xaml.cs">
       <DependentUpon>DraftView.xaml</DependentUpon>
     </Compile>
@@ -124,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\IconButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\SuccessPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
