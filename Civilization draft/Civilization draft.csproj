@@ -7,7 +7,7 @@
     <ProjectGuid>{C2D5938D-48C1-4478-BE12-20D2F5247BE5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Civilization_draft</RootNamespace>
-    <AssemblyName>Civilization draft</AssemblyName>
+    <AssemblyName>Civilization Drafter</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -162,6 +162,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="används inte för att köra\Civilizations wrong format.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

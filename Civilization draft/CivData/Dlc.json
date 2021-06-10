@@ -10,11 +10,5 @@
 	"Fullname": "Rise & Fall",
     "Color": "#a82700",
     "HasCheckbox": true
-  },
-  {
-	"Abbreviation": "ABC",
-	"Fullname": "En annan",
-    "Color": "#ff0707",
-    "HasCheckbox": true
   }
 ]
